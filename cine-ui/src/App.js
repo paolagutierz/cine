@@ -1,20 +1,14 @@
-import Login from "./pages/login";
-import RegisterForm from "./pages/registerForm";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./store";
+import AppRouter from "./AppRouter";
+import "./app.scss";
 
-function App() {
+const App = ({ user }) => {
   return (
-    <Router>
-      <Switch>
-        <Route path="/signup">
-          <RegisterForm></RegisterForm>
-        </Route>
-        <Route path="/login">
-          <Login></Login>
-        </Route>
-      </Switch>
-    </Router>
+    <Provider store={store}>
+      <AppRouter></AppRouter>
+    </Provider>
   );
-}
+};
 
 export default App;
