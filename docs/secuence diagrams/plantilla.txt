@@ -1,0 +1,22 @@
+
+Title funcionalidad
+
+actor User
+
+participantgroup #lightgreen **ReactJs App**
+participant frontend
+end 
+
+participantgroup #lightblue **Nodejs**
+participant backend
+end 
+
+database "MongoDB" as DB
+
+activate User
+
+note left of User:en esta funcionalidad el usuario\nnecesita estar logueado\n
+User->frontend:Iniciar Sesion
+frontend->DB:Verifica los datos 
+DB-->User:Login exitoso
+deactivateafter User

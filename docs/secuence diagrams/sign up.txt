@@ -1,0 +1,44 @@
+Title Sign up
+
+actor User
+
+participantgroup #lightgreen **ReactJs App**
+participant "Sign Up page" as signup
+end 
+
+participantgroup #lightblue **Nodejs**
+participant "Registration module" as Reg
+participant "Email sender module" as sender
+end 
+
+database "MongoDB" as DB
+
+activate User
+
+note left of User:Usuario introduce sus datos y \nluego da click en el botón registrar
+User->signup:Enter data\n
+User->signup:Click "register" button\n
+deactivateafter User
+
+signup->signup: validate if the required data was filled,\n then check if the email and password\n match the regex patterns
+signup->Reg:    POST Request: Send user data to register  
+
+activate Reg
+note left of signup:Solicitud POST al backend \npara enviar los datos del registro\n
+Reg->DB: save the user with a field "isEmailValidated" as false
+DB-->signup: user was saved successfully
+signup-->User:the account was created and needs to be validated with an email
+sender-->User: sends an email to the user
+User<<#red:3--DB:Email already exists, try another
+deactivateafter Reg
+
+activate Reg
+User->signup: confirms the email
+signup->Reg: Post Request: confirms the email endpoint
+Reg->DB: updates the "isEmailValidated" field to true
+DB-->User:The account was confirmed
+deactivateafter Reg
+
+
+
+

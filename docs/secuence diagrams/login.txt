@@ -1,0 +1,45 @@
+Title Login
+
+actor User
+
+participantgroup #lightgreen **ReactJs App**
+participant "Login page" as Login
+end 
+
+participantgroup #lightblue **Nodejs**
+participant "Authentication module" as Auth
+end 
+
+database "MongoDB" as DB
+
+activate User
+
+note left of User:Usuario introduce email y password, \nluego da click en el botón ingresar
+User->Login:Enter email\n
+User->Login:Enter Password\n
+User->Login:Click "login" button\n
+deactivateafter User
+
+Login->Auth:    POST Request: Send user login data    
+activate Auth
+note left of Login:Solicitud POST al backend \npara enviar los datos de login\n
+Auth->DB: Get the user
+note left of Auth:recibe los datos del usuario y\n verifica si existe en la base de datos
+DB->Auth: the user exist
+Auth-->Auth: Encrypts the password and check if\n is the same that comes from DB
+Auth-->Auth: validates if the user field "isEmailValidated" is equals to true
+note left of Auth:Se Encripta la contraseña "bcrypt" y\n verifica si es la misma que esta en\n la base de datos
+Auth-->Auth: create a JWT
+note left of Auth:Se genera un JWT con los datos del usuario\n que existen en la base datos.
+Auth-->Login:User login accepted and send jwt.
+note left of Login:El JWT se guardara en las cookies y de allí se agregara\na cada petición http permitiendo así que el usuario sea\nautenticado en cada REQUEST.\n
+Login->Login:add the JWT to the cookies\n and redirect to the main page
+Auth<<#red:3--DB: user doesn't exists or \npassword incorrect or \nemails is not validated
+Login<<#red:3--Auth:User data rejected
+deactivateafter Auth
+
+User<<#red:3--Login: clear the password show wrong password or user message.
+
+
+
+
