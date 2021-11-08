@@ -1,10 +1,8 @@
-import { ArrowDropDown, Notifications, Search } from "@material-ui/icons";
+import { ArrowDropDown } from "@material-ui/icons";
 import { useState } from "react";
 import { connect } from "react-redux";
 import { logoutAction } from "../../store/actions/loginActions";
 import "./navbar.scss";
-import { Link } from "react-router-dom";
-import logocine from "../../img/logocine.png";
 
 const Navbar = ({ logout, user }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -24,30 +22,18 @@ const Navbar = ({ logout, user }) => {
         <div className="left">
           <img src="" alt="" />
           <span>CARTELERA</span>
+          {user.isAdmin && <span>ADMINISTRAR PELICULAS</span>}
           <span>LISTA DE RESERVAS</span>
         </div>
 
-        {user ? (
+        {user && (
           <div className="right">
-            <Search className="icon" />
-            <img className="logo" src={logocine} alt="" />
-            <Notifications className="icon" />
             <div className="profile">
               <ArrowDropDown className="icon" />
               <div className="options">
-                <span>Settings</span>
                 <span onClick={handleLogout}>Logout</span>
               </div>
             </div>
-          </div>
-        ) : (
-          <div className="right">
-            <span>
-              <Link to="/login">Iniciar sesion</Link>
-            </span>
-            <span>
-              <Link to="/signup">Registrarme</Link>
-            </span>
           </div>
         )}
       </div>
