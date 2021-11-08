@@ -14,7 +14,7 @@ const AppRouter = ({ user }) => {
     <Router>
       <Switch>
         <Route exact path="/">
-          <Home />
+          {!user ? <Redirect to="/login" /> : <Home />}
         </Route>
         <Route path="/signup">{!user ? <SignUp /> : <Redirect to="/" />}</Route>
         <Route path="/login">{!user ? <Login /> : <Redirect to="/" />}</Route>

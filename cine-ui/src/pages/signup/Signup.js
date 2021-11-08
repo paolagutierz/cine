@@ -137,7 +137,6 @@ const Signup = ({
             <option value="1">Cedula</option>
             <option value="2">Tarjeta de identidad</option>
             <option value="3">NIT</option>
-            <option value="4">Pasaporte</option>
           </select>
           <input
             type="text"
