@@ -7,7 +7,6 @@ import {
   signUpStartAction,
   signUpSuccessAction,
 } from "../../store/actions/signUpActions";
-import logocine from "../../img/logocine.png";
 import "./signUp.scss";
 
 const Signup = ({
@@ -115,11 +114,6 @@ const Signup = ({
 
   return (
     <div className="signUp">
-      <div className="top">
-        <div className="wrapper">
-          <img className="logo" src={logocine} alt="" />
-        </div>
-      </div>
       <div className="container">
         <form>
           {error !== "" && (
