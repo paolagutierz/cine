@@ -22,7 +22,7 @@ const Navbar = ({ logout, user }) => {
         <div className="left">
           <img src="" alt="" />
           <span>CARTELERA</span>
-          {user.isAdmin && <span>ADMINISTRAR PELICULAS</span>}
+          {user?.isAdmin && <span>ADMINISTRAR PELICULAS</span>}
           <span>LISTA DE RESERVAS</span>
         </div>
 
