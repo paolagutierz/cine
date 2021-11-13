@@ -1,0 +1,49 @@
+Title Reservas
+
+actor User
+
+participantgroup #lightgreen **ReactJs App
+participant Cartelera
+participant Detalle de pelicula
+participant Silleteria
+participant Reservas
+end 
+
+
+
+participantgroup #lightblue **Nodejs**
+participant "API" as API
+end 
+
+database "MongoDB" as DB
+
+activate User
+
+note left of User:en esta funcionalidad el usuario\nnecesita estar logueado\n
+User ->Cartelera:Click en cartelera
+Cartelera->API:Busca que peliculas hay para el dia.
+API->DB:
+DB->API:Peliculas para el dia de hoy
+API->Cartelera:Informacion de peliculas para el dia de hoy.
+Cartelera->User:Cartelera para el dia de hoy.
+User ->Detalle de pelicula:Click en detalle de pelicula.
+Detalle de pelicula->User:Informacion de la pelicula y horarios.
+User ->Detalle de pelicula:Seleccionar horarios.
+Detalle de pelicula->API:
+API->DB:Consultar sillas disponibles
+DB->API:Sillas disponibles
+API->Silleteria:Sillas disponibles.
+Silleteria->User:Sillas disponibles.
+User->Reservas:Elige sillas
+Reservas->API:Validacion de disponibilidad.
+API->DB:Validacion de disponiblidad
+API->Reservas:Informacion de la reserva.
+Reservas->User:Informacion de la reserva.
+User-->User:aceptacion de reserva.
+User->Reservas:
+Reservas->API:
+API->DB:Se guarda el registro de que las sillas quedaron reservadas.
+
+deactivateafter User
+
+
