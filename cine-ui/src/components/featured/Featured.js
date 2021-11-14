@@ -1,5 +1,3 @@
-import { InfoOutlined } from "@material-ui/icons";
-import logocine from "../../img/logocine.png";
 import "./featured.scss";
 
 export default function Featured({ type }) {

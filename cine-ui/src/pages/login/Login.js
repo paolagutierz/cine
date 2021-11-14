@@ -6,16 +6,25 @@ import {
   logoutAction,
 } from "../../store/actions/loginActions";
 import { signUpNotificationDisplayed } from "../../store/actions/signUpActions";
-import { connect } from "react-redux";
-import "./login.scss";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+//materialUI
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Alert from "@mui/material/Alert";
 
 const Login = ({
   loginStart,
   loginSuccess,
   loginFailure,
-  logout,
   loginState,
   isSignUpSuccess,
   signUpNotificationDisplayed,
@@ -40,7 +49,6 @@ const Login = ({
         "http://localhost:5000/api/auth/login",
         user
       );
-      console.log(response.data);
       loginSuccess(response.data);
     } catch (error) {
       loginFailure();
@@ -48,38 +56,87 @@ const Login = ({
   };
 
   return (
-    <div className="login">
-      <div className="top">
-        <div className="wrapper"></div>
-      </div>
-      <div className="container">
-        <form>
-          {signUpNotificationDisplayed && (
-            <small>
-              {""}
-              <b></b>
-            </small>
-          )}
-          <h1>Iniciar Sesion</h1>
-          <input
-            type="email"
-            placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Contraseña"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button className="loginButton" onClick={handleLogin}>
-            Iniciar Sesion
-          </button>
-          <span>
-            Aun no estas registrado? <Link to="/signup">Registrarme</Link>
-          </span>
-        </form>
-      </div>
-    </div>
+    <>
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: "",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: (t) => t.palette.grey[50],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}>
+            {loginState?.error && (
+              <Alert severity="error">Email o Contraseña incorrecta!</Alert>
+            )}
+            {isSignUpSuccess && (
+              <Alert severity="success">Su registro fue exitoso!</Alert>
+            )}
+            <Avatar sx={{ m: 1, bgcolor: "info.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Iniciar Sesión
+            </Typography>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleLogin}
+              sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"
+                fullWidth
+                id="email"
+                label="Correo electronico"
+                name="email"
+                autoFocus
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <TextField
+                margin="normal"
+                fullWidth
+                name="password"
+                label="Contraseña"
+                type="password"
+                id="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                disabled={loginState?.isFetching}>
+                Iniciar sesión
+              </Button>
+              <Grid container>
+                <Grid item>
+                  Aun no estas registrado?
+                  <Link href="/signup" variant="body2">
+                    {" Registrarse"}
+                  </Link>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </>
   );
 };
 

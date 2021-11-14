@@ -1,5 +1,6 @@
 import "./listItem.scss";
-import { Add, ThumbUpAltOutlined } from "@material-ui/icons";
+import AddIcon from "@mui/icons-material/Add";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import { useState } from "react";
 
 export default function ListItem({ index }) {
@@ -20,8 +21,8 @@ export default function ListItem({ index }) {
           <video src={trailer} autoPlay={true} loop />
           <div className="itemInfo">
             <div className="icons">
-              <Add className="icon" />
-              <ThumbUpAltOutlined className="icon" />
+              <AddIcon />
+              <ThumbUpAltIcon />
             </div>
             <div className="itemInfoTop">
               <span>1 hour 14 mins</span>

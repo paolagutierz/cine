@@ -1,4 +1,4 @@
-import { ArrowDropDown } from "@material-ui/icons";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useState } from "react";
 import { connect } from "react-redux";
 import { logoutAction } from "../../store/actions/loginActions";
@@ -29,7 +29,7 @@ const Navbar = ({ logout, user }) => {
         {user && (
           <div className="right">
             <div className="profile">
-              <ArrowDropDown className="icon" />
+              <ArrowDropDownIcon />
               <div className="options">
                 <span onClick={handleLogout}>Logout</span>
               </div>
