@@ -8,6 +8,7 @@ import {
 import { signUpNotificationDisplayed } from "../../store/actions/signUpActions";
 import axios from "axios";
 import { connect } from "react-redux";
+import bgcine from "../../img/bgcine.jpeg";
 //materialUI
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -65,11 +66,12 @@ const Login = ({
           sm={4}
           md={7}
           sx={{
-            backgroundImage: "",
+            backgroundImage: `url(${bgcine})`,
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) => t.palette.grey[50],
             backgroundSize: "cover",
             backgroundPosition: "center",
+            backgroundAttachment: "fixed",
           }}
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>

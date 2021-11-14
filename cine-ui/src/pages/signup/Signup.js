@@ -1,13 +1,28 @@
 import { useState } from "react";
-import axios from "axios";
-import { connect } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
 import {
   signUpFailureAction,
   signUpStartAction,
   signUpSuccessAction,
 } from "../../store/actions/signUpActions";
-import "./signUp.scss";
+import axios from "axios";
+import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
+import bgcine from "../../img/bgcine.jpeg";
+//materialUI
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import CreateIcon from "@mui/icons-material/Create";
+import Typography from "@mui/material/Typography";
+import Alert from "@mui/material/Alert";
 
 const Signup = ({
   signUpFailure,
@@ -21,11 +36,11 @@ const Signup = ({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-  const [documentType, setDocumentType] = useState("");
+  const [documentType, setDocumentType] = useState("1");
   const [documentNumb, setDocumentNumb] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
 
   const handleSignUp = async (event) => {
     event.preventDefault();
@@ -55,33 +70,48 @@ const Signup = ({
   };
 
   const validateData = () => {
-    if (documentType === "" || documentType === "0") {
-      setError("Selecciona el tipo de documento");
-      return false;
-    } else if (documentNumb === "") {
-      setError("Ingresa el numero de documento");
+    if (documentNumb === "") {
+      setError({
+        text: "Ingresa el numero de documento",
+        input: "documentNumb",
+      });
       return false;
     } else if (firstname === "") {
-      setError("Ingresa tu nombre");
+      setError({
+        text: "Ingresa tu nombre",
+        input: "firstname",
+      });
       return false;
     } else if (lastname === "") {
-      setError("Ingresa tu apellido");
+      setError({
+        text: "Ingresa tu apellido",
+        input: "lastname",
+      });
       return false;
     } else if (email === "") {
-      setError("Ingresa tu email");
+      setError({
+        text: "Ingresa tu email",
+        input: "email",
+      });
       return false;
     } else if (!validateEmail()) {
       return false;
     } else if (password === "") {
-      setError("Ingresa la contraseña");
+      setError({
+        text: "Ingresa la contraseña",
+        input: "password",
+      });
       return false;
     } else if (password2 === "") {
-      setError("Confirma la contraseña");
+      setError({
+        text: "Confirma la contraseña",
+        input: "password2",
+      });
       return false;
     } else if (!validatePassword()) {
       return false;
     } else {
-      setError("");
+      setError(null);
       return true;
     }
   };
@@ -89,14 +119,18 @@ const Signup = ({
   const validatePassword = () => {
     const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{5,}$/;
     if (!pattern.test(password)) {
-      setError(
-        "La contraseña debe ser de longitud mínima 5, y debe contener letras mayúsculas, letras minúsculas y números. "
-      );
+      setError({
+        text: "Longitud mínima 5, y debe contener mayúsculas, minúsculas y números.",
+        input: "password",
+      });
       return false;
     }
 
     if (password !== password2) {
-      setError("Las contraseñas no coinciden");
+      setError({
+        text: "Las contraseñas no coinciden",
+        input: "password",
+      });
       return false;
     }
     return true;
@@ -107,81 +141,146 @@ const Signup = ({
     if (pattern.test(email)) {
       return true;
     } else {
-      setError("Ingresa un email valido");
+      setError({ text: "Ingresa un email valido", input: "email" });
       return false;
     }
   };
 
   return (
-    <div className="signUp">
-      <div className="container">
-        <form>
-          {error !== "" && (
-            <small className="error">
-              {error}
-              <b></b>
-            </small>
-          )}
-          <h1>Registrarme</h1>
-          <select
-            aria-label="Tipo de documento"
-            onChange={(e) => setDocumentType(e.target.value)}
-            name="documentType">
-            <option value="0">Tipo de documento</option>
-            <option value="1">Cedula</option>
-            <option value="2">Tarjeta de identidad</option>
-            <option value="3">NIT</option>
-          </select>
-          <input
-            type="text"
-            placeholder="Numero de documento"
-            name="documentNumb"
-            onChange={(e) => setDocumentNumb(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Nombre"
-            name="firstname"
-            onChange={(e) => setFirstname(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Apellido"
-            name="lastname"
-            onChange={(e) => setLastname(e.target.value)}
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            name="email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Contraseña"
-            name="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Verifica la contraseña"
-            onChange={(e) => setPassword2(e.target.value)}
-          />
-
-          {isFetching ? (
-            <span>...loading</span>
-          ) : (
-            <button className="signUpButton" onClick={handleSignUp}>
-              Registrarme
-            </button>
-          )}
-          <b></b>
-          <span>
-            Ya tienes una cuenta? <Link to="/login">Ingresa aca.</Link>
-          </span>
-        </form>
-      </div>
-    </div>
+    <>
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: `url(${bgcine})`,
+            backgroundRepeat: "no-repeat",
+            backgroundColor: (t) => t.palette.grey[50],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundAttachment: "fixed",
+          }}
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 4,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}>
+            <Avatar sx={{ m: 1, bgcolor: "info.main" }}>
+              <CreateIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Registrarse
+            </Typography>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSignUp}
+              sx={{ mt: 1 }}>
+              <InputLabel id="document-type-label">
+                Tipo de Documento
+              </InputLabel>
+              <Select
+                labelId="document-type-label"
+                name="documentType"
+                label="Age"
+                onChange={(e) => setDocumentType(e.target.value)}
+                fullWidth
+                autoFocus
+                value={documentType}>
+                <MenuItem value="1">Cedula</MenuItem>
+                <MenuItem value="2">Tarjeta de identidad</MenuItem>
+                <MenuItem value="3">NIT</MenuItem>
+              </Select>
+              <TextField
+                margin="normal"
+                fullWidth
+                name="documentNumb"
+                label="Numero de documento"
+                onChange={(e) => setDocumentNumb(e.target.value)}
+                error={error?.input === "documentNumb"}
+                helperText={error?.input === "documentNumb" && error.text}
+              />
+              <TextField
+                margin="normal"
+                fullWidth
+                name="firstname"
+                label="Nombre"
+                onChange={(e) => setFirstname(e.target.value)}
+                error={error?.input === "firstname"}
+                helperText={error?.input === "firstname" && error.text}
+              />
+              <TextField
+                margin="normal"
+                fullWidth
+                name="lastname"
+                label="Apellido"
+                onChange={(e) => setLastname(e.target.value)}
+                error={error?.input === "lastname"}
+                helperText={error?.input === "lastname" && error.text}
+              />
+              <TextField
+                type="email"
+                margin="normal"
+                fullWidth
+                name="email"
+                label="Correo electronico"
+                onChange={(e) => setEmail(e.target.value)}
+                error={error?.input === "email"}
+                helperText={error?.input === "email" && error.text}
+              />
+              <TextField
+                margin="normal"
+                fullWidth
+                name="password"
+                label="Contraseña"
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+                error={error?.input === "password"}
+                helperText={error?.input === "password" && error.text}
+              />
+              <TextField
+                margin="normal"
+                fullWidth
+                label="Verifique la contraseña"
+                type="password"
+                onChange={(e) => setPassword2(e.target.value)}
+                error={error?.input === "password2"}
+                helperText={error?.input === "password2" && error.text}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                disabled={isFetching}>
+                Registrarme
+              </Button>
+              <Grid container>
+                <Grid item>
+                  Ya tienes una cuenta?
+                  <Link href="/login" variant="body2">
+                    {" Ingresa aca."}
+                  </Link>
+                </Grid>
+              </Grid>
+              {apiError && (
+                <Alert severity="error">
+                  Hubo un error al registrarse, intenta nuevamente.
+                </Alert>
+              )}
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </>
   );
 };
 
