@@ -1,6 +1,6 @@
-import Home from "./pages/home/Home";
-import SignUp from "./pages/signup/Signup";
-import Login from "./pages/login/Login";
+import Home from "./pages/Home";
+import SignUp from "./pages/Signup";
+import Login from "./pages/Login";
 import { connect } from "react-redux";
 import {
   BrowserRouter as Router,
@@ -8,6 +8,8 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+
+import MovieDetails from "./pages/MovieDetails";
 
 const AppRouter = ({ user }) => {
   return (
@@ -21,7 +23,7 @@ const AppRouter = ({ user }) => {
         {user && (
           <>
             <Route path="/movies">
-              <Home type="movie" />
+              <MovieDetails />
             </Route>
           </>
         )}

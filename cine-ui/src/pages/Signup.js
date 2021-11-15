@@ -3,11 +3,11 @@ import {
   signUpFailureAction,
   signUpStartAction,
   signUpSuccessAction,
-} from "../../store/actions/signUpActions";
+} from "../store/actions/signUpActions";
 import axios from "axios";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import bgcine from "../../img/bgcine.jpeg";
+import bgcine from "../img/bgcine.jpeg";
 //materialUI
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -158,7 +158,6 @@ const Signup = ({
           sx={{
             backgroundImage: `url(${bgcine})`,
             backgroundRepeat: "no-repeat",
-            backgroundColor: (t) => t.palette.grey[50],
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundAttachment: "fixed",
@@ -184,85 +183,102 @@ const Signup = ({
               noValidate
               onSubmit={handleSignUp}
               sx={{ mt: 1 }}>
-              <InputLabel id="document-type-label">
-                Tipo de Documento
-              </InputLabel>
-              <Select
-                labelId="document-type-label"
-                name="documentType"
-                label="Age"
-                onChange={(e) => setDocumentType(e.target.value)}
-                fullWidth
-                autoFocus
-                value={documentType}>
-                <MenuItem value="1">Cedula</MenuItem>
-                <MenuItem value="2">Tarjeta de identidad</MenuItem>
-                <MenuItem value="3">NIT</MenuItem>
-              </Select>
-              <TextField
-                margin="normal"
-                fullWidth
-                name="documentNumb"
-                label="Numero de documento"
-                onChange={(e) => setDocumentNumb(e.target.value)}
-                error={error?.input === "documentNumb"}
-                helperText={error?.input === "documentNumb" && error.text}
-              />
-              <TextField
-                margin="normal"
-                fullWidth
-                name="firstname"
-                label="Nombre"
-                onChange={(e) => setFirstname(e.target.value)}
-                error={error?.input === "firstname"}
-                helperText={error?.input === "firstname" && error.text}
-              />
-              <TextField
-                margin="normal"
-                fullWidth
-                name="lastname"
-                label="Apellido"
-                onChange={(e) => setLastname(e.target.value)}
-                error={error?.input === "lastname"}
-                helperText={error?.input === "lastname" && error.text}
-              />
-              <TextField
-                type="email"
-                margin="normal"
-                fullWidth
-                name="email"
-                label="Correo electronico"
-                onChange={(e) => setEmail(e.target.value)}
-                error={error?.input === "email"}
-                helperText={error?.input === "email" && error.text}
-              />
-              <TextField
-                margin="normal"
-                fullWidth
-                name="password"
-                label="Contraseña"
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-                error={error?.input === "password"}
-                helperText={error?.input === "password" && error.text}
-              />
-              <TextField
-                margin="normal"
-                fullWidth
-                label="Verifique la contraseña"
-                type="password"
-                onChange={(e) => setPassword2(e.target.value)}
-                error={error?.input === "password2"}
-                helperText={error?.input === "password2" && error.text}
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                disabled={isFetching}>
-                Registrarme
-              </Button>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <InputLabel id="document-type-label">
+                    Tipo de Documento
+                  </InputLabel>
+                  <Select
+                    labelId="document-type-label"
+                    name="documentType"
+                    onChange={(e) => setDocumentType(e.target.value)}
+                    fullWidth
+                    autoFocus
+                    value={documentType}>
+                    <MenuItem value="1">Cedula</MenuItem>
+                    <MenuItem value="2">Tarjeta de identidad</MenuItem>
+                    <MenuItem value="3">NIT</MenuItem>
+                  </Select>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    name="documentNumb"
+                    label="Numero de documento"
+                    onChange={(e) => setDocumentNumb(e.target.value)}
+                    error={error?.input === "documentNumb"}
+                    helperText={error?.input === "documentNumb" && error.text}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    name="firstname"
+                    label="Nombre"
+                    onChange={(e) => setFirstname(e.target.value)}
+                    error={error?.input === "firstname"}
+                    helperText={error?.input === "firstname" && error.text}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    name="lastname"
+                    label="Apellido"
+                    onChange={(e) => setLastname(e.target.value)}
+                    error={error?.input === "lastname"}
+                    helperText={error?.input === "lastname" && error.text}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    type="email"
+                    margin="normal"
+                    fullWidth
+                    name="email"
+                    label="Correo electronico"
+                    onChange={(e) => setEmail(e.target.value)}
+                    error={error?.input === "email"}
+                    helperText={error?.input === "email" && error.text}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    name="password"
+                    label="Contraseña"
+                    type="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    error={error?.input === "password"}
+                    helperText={error?.input === "password" && error.text}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    label="Verifique la contraseña"
+                    type="password"
+                    onChange={(e) => setPassword2(e.target.value)}
+                    error={error?.input === "password2"}
+                    helperText={error?.input === "password2" && error.text}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    disabled={isFetching}>
+                    Registrarme
+                  </Button>
+                </Grid>
+              </Grid>
               <Grid container>
                 <Grid item>
                   Ya tienes una cuenta?
