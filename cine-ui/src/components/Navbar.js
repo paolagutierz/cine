@@ -46,7 +46,11 @@ const Navbar = ({ logout, user }) => {
             {user?.isAdmin && (
               <Button color="inherit">Administrar Cartelera</Button>
             )}
-            <Button color="inherit">Lista de Reservas</Button>
+            <Button
+              color="inherit"
+              onClick={(e) => handleRedirect(e, "/reservas")}>
+              Lista de Reservas
+            </Button>
             <IconButton
               size="large"
               edge="end"
@@ -70,7 +74,13 @@ const Navbar = ({ logout, user }) => {
               }}
               open={Boolean(isMenuOpen)}
               onClose={() => setIsMenuOpen(false)}>
-              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              {user ? (
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              ) : (
+                <MenuItem onClick={(e) => handleRedirect(e, "/login")}>
+                  Login
+                </MenuItem>
+              )}
             </Menu>
           </nav>
         </Toolbar>

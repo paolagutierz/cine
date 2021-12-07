@@ -270,6 +270,7 @@ const Signup = ({
                 </Grid>
                 <Grid item xs={12}>
                   <Button
+                    id="signupbutton"
                     type="submit"
                     fullWidth
                     variant="contained"

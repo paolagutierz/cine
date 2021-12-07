@@ -1,6 +1,9 @@
 import Home from "./pages/Home";
 import SignUp from "./pages/Signup";
 import Login from "./pages/Login";
+import ReservationLists from "./pages/ReservationLists";
+import ReservationDetails from "./pages/ReservationDetails";
+
 import { connect } from "react-redux";
 import {
   BrowserRouter as Router,
@@ -16,7 +19,7 @@ const AppRouter = ({ user }) => {
     <Router>
       <Switch>
         <Route exact path="/">
-          {!user ? <Redirect to="/login" /> : <Home />}
+          <Home />
         </Route>
         <Route path="/signup">{!user ? <SignUp /> : <Redirect to="/" />}</Route>
         <Route path="/login">{!user ? <Login /> : <Redirect to="/" />}</Route>
@@ -24,6 +27,15 @@ const AppRouter = ({ user }) => {
           <>
             <Route path="/movies">
               <MovieDetails />
+            </Route>
+            <Route path="/reservas">
+              <ReservationLists />
+            </Route>
+            <Route path="/reservas">
+              <ReservationDetails />
+            </Route>
+            <Route path="/verreserva/:id">
+              <ReservationDetails />
             </Route>
           </>
         )}

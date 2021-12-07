@@ -6,14 +6,14 @@ import EventSeatIcon from "@mui/icons-material/EventSeat";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 
-const chairs = [
+const seats = [
   { letter: "A", numbers: [1, 2, 3, 4, 5, 6] },
   { letter: "B", numbers: [1, 2, 3, 4, 5, 6] },
   { letter: "C", numbers: [1, 2, 3, 4, 5, 6] },
   { letter: "D", numbers: [1, 2, 3, 4, 5, 6] },
 ];
 
-const Chairs = ({ chairSelected, handleSelectChair }) => {
+const Seats = ({ seatSelected, handleSelectSeat }) => {
   return (
     <Container
       fixed
@@ -44,18 +44,18 @@ const Chairs = ({ chairSelected, handleSelectChair }) => {
             {" "}
             <Typography color="primary.contrastText">Pantalla</Typography>
             <Grid container rowSpacing={2} sx={{ mt: 2 }}>
-              {chairs.map((chair, i) =>
-                chair.numbers.map((number, i) => (
+              {seats.map((seat, i) =>
+                seat.numbers.map((number, i) => (
                   <Grid item xs={2} key={i}>
                     <IconButton
                       size="large"
                       color={
-                        chairSelected[`${chair.letter}`][`${number}`]
+                        seatSelected[`${seat.letter}`][`${number}`]
                           ? "primary.contrastText"
                           : "warning.main"
                       }
                       disabled={true}
-                      onClick={() => handleSelectChair(chair.letter, number)}>
+                      onClick={() => handleSelectSeat(seat.letter, number)}>
                       <EventSeatIcon />
                     </IconButton>
                   </Grid>
@@ -69,4 +69,4 @@ const Chairs = ({ chairSelected, handleSelectChair }) => {
   );
 };
 
-export default Chairs;
+export default Seats;

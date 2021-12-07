@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Page from "../components/Page";
-import Chairs from "../components/Chairs";
+import Seats from "../components/Seats";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -9,7 +9,7 @@ import { Card, CardContent, Container } from "@mui/material";
 import encanto from "../img/promo/encanto2.jpg";
 import MovieDetailCard from "../components/MovieDetailCard";
 
-const details = {
+export const details = {
   img: encanto,
   tittle: "Encanto",
   format: "2D",
@@ -22,7 +22,7 @@ const details = {
     "ENCANTO cuenta la historia de los Madrigal una familia extraordinaria que vive escondida en las montañas de Colombia, en una casa mágica, en un pueblo vibrante, en un lugar maravilloso conocido como un Encanto. La magia de este Encanto ha bendecido a todos los niños y niñas de la familia con un don único, desde súper fuerza hasta el poder de sanar. A todos, excepto a Mirabel. Pero cuando descubre que la magia que rodea al Encanto corre peligro, Mirabel decide que ella, la única Madrigal sin poderes mágicos, podría ser la última esperanza de su excepcional familia.",
 };
 
-const chairSelectedResponse = {
+const seatSelectedResponse = {
   A: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
   B: { 1: false, 2: false, 3: true, 4: true, 5: false, 6: false },
   C: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
@@ -34,22 +34,22 @@ const deepClone = (object) => JSON.parse(JSON.stringify(object));
 const MovieDetails = () => {
   const [dateSelected, setDateSelected] = useState("");
   const [timeSelected, setTimeSelected] = useState("");
-  const [chairSelected, setChairSelected] = useState(
-    deepClone(chairSelectedResponse)
+  const [seatSelected, setSeatSelected] = useState(
+    deepClone(seatSelectedResponse)
   );
-  const [chairsNumb, setChairsNumb] = useState(0);
+  const [seatsNumb, setSeatsNumb] = useState(0);
 
-  const handleSelectChair = (row, column) => {
-    setChairsNumb(chairsNumb + 1);
-    const chairSelectedCopy = deepClone(chairSelected);
-    chairSelectedCopy[`${row}`][`${column}`] = true;
-    setChairSelected(chairSelectedCopy);
+  const handleSelectSeat = (row, column) => {
+    setSeatsNumb(seatsNumb + 1);
+    const seatSelectedCopy = deepClone(seatSelected);
+    seatSelectedCopy[`${row}`][`${column}`] = true;
+    setSeatSelected(seatSelectedCopy);
   };
 
   const handleTimeSelected = (value) => {
     //llamar a la api para obtener datos de las sillas reservadas
-    setChairSelected(deepClone(chairSelectedResponse));
-    setChairsNumb(0);
+    setSeatSelected(deepClone(seatSelectedResponse));
+    setSeatsNumb(0);
     setTimeSelected(value);
   };
 
@@ -125,13 +125,13 @@ const MovieDetails = () => {
 
                   {timeSelected !== "" && (
                     <Grid item xs={12}>
-                      <Chairs
-                        chairSelected={chairSelected}
-                        handleSelectChair={handleSelectChair}></Chairs>
+                      <Seats
+                        seatSelected={seatSelected}
+                        handleSelectSeat={handleSelectSeat}></Seats>
                     </Grid>
                   )}
 
-                  {chairsNumb > 0 && (
+                  {seatsNumb > 0 && (
                     <Grid item xs={12}>
                       <Card>
                         <CardContent
@@ -139,8 +139,8 @@ const MovieDetails = () => {
                             display: "flex",
                             justifyContent: "space-between",
                           }}>
-                          <Typography>Numero de Sillas:{chairsNumb}</Typography>
-                          <Typography>Total:${chairsNumb * 20000}</Typography>
+                          <Typography>Numero de Sillas:{seatsNumb}</Typography>
+                          <Typography>Total:${seatsNumb * 20000}</Typography>
                           <Button variant="contained">Reservar</Button>
                         </CardContent>
                       </Card>
