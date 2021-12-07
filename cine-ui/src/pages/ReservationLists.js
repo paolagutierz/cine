@@ -21,7 +21,7 @@ const reservations = [
     time: "hora2",
     seats: "id sillas2",
     quantity: "cantidad2",
-    isCancelable: false,
+    isCancelable: true,
   },
 ];
 

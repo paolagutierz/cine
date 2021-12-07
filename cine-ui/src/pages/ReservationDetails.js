@@ -34,7 +34,7 @@ const ReservationDetails = () => {
               container
               rowSpacing={1}
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-              sx={{ mt: 4 }}>
+              sx={{ mt: 2 }}>
               <MovieDetailCard
                 img={details.img}
                 tittle={details.tittle}
