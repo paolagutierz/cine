@@ -15,7 +15,7 @@ import encanto from "../img/promo/encanto2.jpg";
 
 const details = {
   img: encanto,
-  tittle: "Encanto",
+  tittle: "Encano",
   format: "2D",
   fecha: "12/10/2021",
   hora: "12:30pm",
