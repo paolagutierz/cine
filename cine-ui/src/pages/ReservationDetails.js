@@ -19,7 +19,7 @@ const details = {
   format: "2D",
   fecha: "12/10/2021",
   hora: "12:30pm",
-  sillas: [23, 25, 24, 67],
+  sillas: [23, 28, 24, 67],
   description:
     "ENCANTO cuenta la historia de los Madrigal una familia extraordinaria que vive escondida en las montañas de Colombia, en una casa mágica, en un pueblo vibrante, en un lugar maravilloso conocido como un Encanto. La magia de este Encanto ha bendecido a todos los niños y niñas de la familia con un don único, desde súper fuerza hasta el poder de sanar. A todos, excepto a Mirabel. Pero cuando descubre que la magia que rodea al Encanto corre peligro, Mirabel decide que ella, la única Madrigal sin poderes mágicos, podría ser la última esperanza de su excepcional familia.",
 };
