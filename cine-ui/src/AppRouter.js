@@ -31,9 +31,6 @@ const AppRouter = ({ user }) => {
             <Route path="/reservas">
               <ReservationLists />
             </Route>
-            <Route path="/reservas">
-              <ReservationDetails />
-            </Route>
             <Route path="/verreserva/:id">
               <ReservationDetails />
             </Route>
