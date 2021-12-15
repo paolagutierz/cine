@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const MovieScheduleSchema = new mongoose.Schema({
+const MovieShowSchema = new mongoose.Schema({
   id: {
     type: string,
   },
@@ -19,21 +19,18 @@ const MovieScheduleSchema = new mongoose.Schema({
   },
   movieId: {
     type: Schema.Types.ObjectId,
-    ref: "Movie",
+    ref: "movie",
     required: true,
   },
-  seats: {
+  seatAvailable: {
     type: [Schema.Types.Mixed],
-    required: true,
-  },
-  seatsAvailable: {
-    type: Number,
+    ref: "seat",
     required: true,
   },
   ticketPrice: {
-    type: Number,
+    type: string,
     required: true,
   },
 });
 
-module.exports = mongoose.model("movieSchedule", MovieScheduleSchema);
+module.exports = mongoose.model("movieShow", MovieShowSchema);

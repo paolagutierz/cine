@@ -46,11 +46,13 @@ const Navbar = ({ logout, user }) => {
             {user?.isAdmin && (
               <Button color="inherit">Administrar Cartelera</Button>
             )}
-            <Button
-              color="inherit"
-              onClick={(e) => handleRedirect(e, "/reservas")}>
-              Lista de Reservas
-            </Button>
+            {user && (
+              <Button
+                color="inherit"
+                onClick={(e) => handleRedirect(e, "/reservas")}>
+                Lista de Reservas
+              </Button>
+            )}
             <IconButton
               size="large"
               edge="end"

@@ -22,13 +22,13 @@ case GET_MOVIESCHEDULES:
 
 case SELECT_MOVIESCHEDULES:{
 return{
-  const { selectedmovieSchedules,state },
-  const selectedIndex = selectedmovieSchedules.indexOf(payload);
-  let newSelected = [];
+  const{selectedmovieSchedules,state },
+  const selectedIndex = selectedmovieSchedules.indexOf(payload),
+  let newSelected = [],
   if (selectedIndex === -1) {
-    newSelected = newSelected.concat(selectedmovieSchedules, payload);
+    newSelected = newSelected.concat(selectedmovieSchedules, payload),
   } else if (selectedIndex === 0) {
-    newSelected = newSelected.concat(selectedmovieSchedules.slice(1));
+    newSelected = newSelected.concat(selectedmovieSchedules.slice(1)),
   } else if (selectedIndex === selectedmovieSchedules.length - 1) {
     newSelected = newSelected.concat(selectedmovieSchedules.slice(0, -1));
   } else if (selectedIndex > 0) {

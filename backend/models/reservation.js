@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const ReservationSchema = new mongoose.Schema({
   date: {
@@ -9,26 +10,23 @@ const ReservationSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  seatID: {
-    type: [Schema.Types.Mixed],
+  seatId: {
+    type: String,
     required: true,
   },
-  ticketPrice: {
-    type: Number,
+  ticket: {
+    type: Schema.Types.ObjectId,
+    ref: "ticket",
     required: true,
   },
-  total: {
-    type: Number,
+  price: {
+    type: String,
     required: true,
   },
   movieId: {
     type: Schema.Types.ObjectId,
-    ref: "movies",
+    ref: "movie",
     required: true,
-  },
-  confirmation: {
-    type: Boolean,
-    default: false,
   },
 });
 

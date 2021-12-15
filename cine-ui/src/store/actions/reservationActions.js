@@ -23,7 +23,7 @@ export const getReservations = () => async (dispatch) => {
 export const getReservationSeats = () => async (dispatch) => {
   try {
     const token = localStorage.getItem("jwtToken");
-    const url = "/reservations/reservationmodeling/";
+    const url = "/seat";
     const response = await fetch(url, {
       method: "GET",
       headers: {

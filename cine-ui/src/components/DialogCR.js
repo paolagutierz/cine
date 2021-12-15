@@ -6,7 +6,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import Slide from "@mui/material/Slide";
 
-function DialogLS() {
+function DialogCR() {
   const [open, setOpen] = React.useState(false);
   const [fullWidth] = React.useState(true);
   const [maxWidth] = React.useState("sm");
@@ -25,7 +25,7 @@ function DialogLS() {
   return (
     <div>
       <Button variant="contained" onClick={handleClickOpen}>
-        Liberar Sillas
+        Cancelar Reserva
       </Button>
       <Dialog
         fullWidth={fullWidth}
@@ -35,9 +35,7 @@ function DialogLS() {
         open={open}
         aria-labelledby="responsive-dialog-title">
         <DialogContent>
-          <DialogContentText>
-            ¿Desea liberar las sillas seleccionadas?{" "}
-          </DialogContentText>
+          <DialogContentText>¿Desea cancelar la reserva? </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
@@ -52,4 +50,4 @@ function DialogLS() {
   );
 }
 
-export default DialogLS;
+export default DialogCR;

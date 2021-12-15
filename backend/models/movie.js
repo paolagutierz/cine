@@ -23,7 +23,7 @@ const MovieSchema = new mongoose.Schema({
     default: "2D",
   },
   duration: {
-    type: Number,
+    type: String,
     required: true,
   },
 });

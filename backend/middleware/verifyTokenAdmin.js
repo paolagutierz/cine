@@ -6,9 +6,10 @@ module.exports = (req, res, next) => {
     if (!token) return res.status(403).send("Access denied.");
 
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    if (!decoded.isAdmin) return res.status(403).send("Access denied.");
     req.user = decoded;
     next();
-  } catch (error) {
-    res.status(400).send("Invalid token");
+  } catch (err) {
+    res.status(400).json(err);
   }
 };

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import Page from "../components/Page";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import {
-  Button,
+  Card,
+  CardContent,
   Container,
   FormGroup,
   FormControlLabel,
@@ -12,10 +13,12 @@ import {
 import Checkbox from "@mui/material/Checkbox";
 import MovieDetailCard from "../components/MovieDetailCard";
 import encanto from "../img/promo/encanto2.jpg";
+import DialogLS from "../components/DialogLS";
+import DialogCR from "../components/DialogCR";
 
 const details = {
   img: encanto,
-  tittle: "Encano",
+  tittle: "Encanto",
   format: "2D",
   fecha: "12/10/2021",
   hora: "12:30pm",
@@ -39,60 +42,74 @@ const ReservationDetails = () => {
                 img={details.img}
                 tittle={details.tittle}
                 description={details.description}></MovieDetailCard>
-              <Grid item xs={8}>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="div"
-                  sx={{ mx: 4 }}>
-                  {details.tittle} {details.format}
-                </Typography>
-
-                <Grid container rowSpacing={2} sx={{ mt: 2, mx: 4 }}>
-                  <Grid item xs={8}>
-                    <Typography gutterBottom variant="h5" component="div">
-                      {details.titulo}
-                    </Typography>
-                    <Grid
-                      item
-                      sx={{
-                        mx: 2,
-                      }}>
-                      <Typography>Fecha: {details.fecha}</Typography>
-                      <Typography>Hora: {details.hora}</Typography>
-                    </Grid>
-                  </Grid>
-                  <Grid item xs={12}>
+              <Grid item xs={6}>
+                <CardContent>
+                  <Card>
                     <Typography
-                      sx={{
-                        mt: 2,
-                      }}>
-                      {" "}
-                      Sillas Reservadas:
+                      gutterBottom
+                      variant="h5"
+                      component="div"
+                      sx={{ mt: 4, mx: 4 }}>
+                      {details.tittle} {details.format}
                     </Typography>
-                    <FormGroup
-                      sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        mt: 2,
-                      }}>
-                      {details.sillas.map((silla, i) => (
-                        <FormControlLabel
-                          control={<Checkbox defaultChecked />}
-                          label={silla}
-                        />
-                      ))}
-                    </FormGroup>
-                  </Grid>
-                  <ButtonGroup
-                    sx={{
-                      mt: 3,
-                    }}>
-                    {" "}
-                    <Button variant="contained"> Liberar sillas</Button>
-                    <Button variant="contained"> Cancelar Reserva</Button>
-                  </ButtonGroup>
-                </Grid>
+                    <Grid container rowSpacing={2} sx={{ mx: 4 }}>
+                      <Grid item xs={8}>
+                        <Typography gutterBottom variant="h5" component="div">
+                          {details.titulo}
+                        </Typography>
+                        <Grid
+                          item
+                          sx={{
+                            mt: 3,
+                          }}>
+                          <Typography
+                            sx={{
+                              mt: 3,
+                            }}>
+                            Fecha: {details.fecha}
+                          </Typography>
+                          <Typography
+                            sx={{
+                              mt: 3,
+                            }}>
+                            Hora: {details.hora}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography
+                          sx={{
+                            mt: 2,
+                          }}>
+                          {" "}
+                          Sillas Reservadas:
+                        </Typography>
+                        <FormGroup
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            mt: 2,
+                          }}>
+                          {details.sillas.map((silla, i) => (
+                            <FormControlLabel
+                              control={<Checkbox defaultChecked />}
+                              label={silla}
+                            />
+                          ))}
+                        </FormGroup>
+                      </Grid>
+                      <ButtonGroup
+                        sx={{
+                          mt: 4,
+                          mb: 8,
+                        }}>
+                        {" "}
+                        <DialogLS></DialogLS>
+                        <DialogCR></DialogCR>
+                      </ButtonGroup>
+                    </Grid>
+                  </Card>
+                </CardContent>
               </Grid>
             </Grid>
           </Container>
