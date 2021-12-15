@@ -1,4 +1,4 @@
-import { GET_RESERVATIONS, GET_RESERVATION_SEATS } from "../actions/types";
+import { GET_RESERVATIONS, GET_RESERVATION_SUGGESTED_SEATS } from "../types";
 import { setAlert } from "./alert";
 
 export const getReservations = () => async (dispatch) => {
@@ -20,10 +20,10 @@ export const getReservations = () => async (dispatch) => {
   }
 };
 
-export const getReservationSeats = () => async (dispatch) => {
+export const getSuggestedReservationSeats = (username) => async (dispatch) => {
   try {
     const token = localStorage.getItem("jwtToken");
-    const url = "/seat";
+    const url = "/reservations/usermodeling/" + username;
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -33,7 +33,7 @@ export const getReservationSeats = () => async (dispatch) => {
     const reservationSeats = await response.json();
     if (response.ok) {
       dispatch({
-        type: GET_RESERVATION_SEATS,
+        type: GET_RESERVATION_SUGGESTED_SEATS,
         payload: reservationSeats,
       });
     }
@@ -55,19 +55,19 @@ export const addReservation = (reservation) => async (dispatch) => {
       body: JSON.stringify(reservation),
     });
     if (response.ok) {
-      const { reservation } = await response.json();
-      dispatch(setAlert("Reserva creada", "success", 5000));
+      const { reservation, QRCode } = await response.json();
+      dispatch(setAlert("Reservation Created", "success", 5000));
       return {
         status: "success",
-        message: "Reserva creada",
-        data: { reservation },
+        message: "Reservation Created",
+        data: { reservation, QRCode },
       };
     }
   } catch (error) {
     dispatch(setAlert(error.message, "error", 5000));
     return {
       status: "error",
-      message: " La reserva no fue creada,intenta de nuevo.",
+      message: " Reservation have not been created, try again.",
     };
   }
 };
@@ -97,7 +97,7 @@ export const updateReservation = (reservation, id) => async (dispatch) => {
   }
 };
 
-export const cancelReservation = (id) => async (dispatch) => {
+export const removeReservation = (id) => async (dispatch) => {
   try {
     const token = localStorage.getItem("jwtToken");
     const url = "/reservations/" + id;
@@ -109,14 +109,14 @@ export const cancelReservation = (id) => async (dispatch) => {
       },
     });
     if (response.ok) {
-      dispatch(setAlert("Reserva cancelada", "success", 5000));
-      return { status: "success", message: "Reserva cancelada" };
+      dispatch(setAlert("Reservation Deleted", "success", 5000));
+      return { status: "success", message: "Reservation Removed" };
     }
   } catch (error) {
     dispatch(setAlert(error.message, "error", 5000));
     return {
       status: "error",
-      message: " la reserva no pudo ser eliminada.",
+      message: " Reservation have not been deleted, try again.",
     };
   }
 };
