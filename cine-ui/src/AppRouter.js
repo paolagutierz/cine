@@ -3,6 +3,9 @@ import SignUp from "./pages/Signup";
 import Login from "./pages/Login";
 import ReservationLists from "./pages/ReservationLists";
 import ReservationDetails from "./pages/ReservationDetails";
+import MovieListings from "./pages/MovieListings";
+import MovieDetails from "./pages/MovieDetails";
+import Page from "./components/Page";
 
 import { connect } from "react-redux";
 import {
@@ -12,8 +15,6 @@ import {
   Redirect,
 } from "react-router-dom";
 
-import MovieDetails from "./pages/MovieDetails";
-
 const AppRouter = ({ user }) => {
   return (
     <Router>
@@ -21,13 +22,19 @@ const AppRouter = ({ user }) => {
         <Route exact path="/">
           <Home />
         </Route>
+        <Route exact path="/movies">
+          <Page>
+            <MovieListings />
+          </Page>
+        </Route>
+        <Route path="/movies/:tittle">
+          <MovieDetails />
+        </Route>
+
         <Route path="/signup">{!user ? <SignUp /> : <Redirect to="/" />}</Route>
         <Route path="/login">{!user ? <Login /> : <Redirect to="/" />}</Route>
         {user && (
           <>
-            <Route path="/movies">
-              <MovieDetails />
-            </Route>
             <Route path="/reservas">
               <ReservationLists />
             </Route>

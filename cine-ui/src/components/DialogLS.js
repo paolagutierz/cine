@@ -1,55 +1,75 @@
 import * as React from "react";
+import{
+ reservationMock,
+} from "../store/actions/reservationActions";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import Slide from "@mui/material/Slide";
+import { useSnackbar } from 'notistack';
 
-function DialogLS() {
+const removeItem=(array,item)=>{
+   const index = array.indexOf(item);
+   if (index > -1) {
+  array.splice(index, 1);}
+}
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+function DialogLS({ textbtn, dialogmsg,removeSeats}) {
   const [open, setOpen] = React.useState(false);
-  const [fullWidth] = React.useState(true);
-  const [maxWidth] = React.useState("sm");
-  const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
-
+  const {enqueueSnackbar} =useSnackbar();
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleCloseYes = (variant) => {
+    enqueueSnackbar('Liberacion Exitosa',{variant});
+    setOpen(false);
+    removeSeats();
+  };
+
+ const handleCloseNo = (variant) => {
+    
     setOpen(false);
   };
 
   return (
     <div>
-      <Button variant="contained" onClick={handleClickOpen}>
-        Liberar Sillas
+      <Button
+        sx={{
+          mr: 2,
+        }}
+        variant="contained"
+        onClick={handleClickOpen}>
+        {textbtn}
       </Button>
       <Dialog
-        fullWidth={fullWidth}
-        maxWidth={maxWidth}
+        fullWidth={true}
+        maxWidth="sm"
         TransitionComponent={Transition}
-        onClose={handleClose}
+        onClose={handleCloseNo}
         open={open}
         aria-labelledby="responsive-dialog-title">
         <DialogContent>
-          <DialogContentText>
-            ¿Desea liberar las sillas seleccionadas?{" "}
-          </DialogContentText>
+          <DialogContentText>{dialogmsg}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose}>
+          <Button  autoFocus onClick={()=>handleCloseYes('success')}>
             Si
           </Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={handleCloseNo} autoFocus>
             No
           </Button>
         </DialogActions>
       </Dialog>
     </div>
   );
-}
+};
 
 export default DialogLS;

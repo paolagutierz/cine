@@ -6,12 +6,32 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+import { useHistory } from "react-router";
 
 const MovieListing = ({ img, tittle, format, description }) => {
+  const history = useHistory();
+  const handleRedirect = (e, path) => {
+    e.preventDefault();
+    history.push(path);
+  };
   return (
-    <Grid item xs={12} sm={6} md={4} sx={{ mt: 4 }}>
-      <Card sx={{ maxWidth: 345 }}>
-        <CardMedia component="img" height="300" image={img} alt={tittle} />
+    <Grid item xs={10} sm={6} md={4} sx={{ mt: 2 }}>
+      <Card
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          p: 1,
+          m: 1,
+          maxWidth: 280,
+        }}>
+        <CardMedia
+          sx={{ maxWidth: 250 }}
+          component="img"
+          height="auto"
+          image={img}
+          alt={tittle}
+        />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {tittle}
@@ -24,7 +44,13 @@ const MovieListing = ({ img, tittle, format, description }) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Ver Detalles</Button>
+          <Button
+            variant="contained"
+            onClick={(e) =>
+              handleRedirect(e, `/movies/${tittle}`.toLowerCase())
+            }>
+            Ver Detalles
+          </Button>
         </CardActions>
       </Card>
     </Grid>

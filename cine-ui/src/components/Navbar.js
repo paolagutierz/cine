@@ -34,9 +34,16 @@ const Navbar = ({ logout, user }) => {
         elevation={0}
         sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}>
         <Toolbar sx={{ flexWrap: "wrap" }}>
-          <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-            Cidenet Pictures
-          </Typography>
+          <div style={{ flexGrow: 1 }}>
+            <Button
+              color="disabled"
+              variant="h2"
+              noWrap
+              onClick={(e) => handleRedirect(e, "/")}>
+              Cidenet Pictures
+            </Button>
+          </div>
+
           <nav>
             <Button
               color="inherit"

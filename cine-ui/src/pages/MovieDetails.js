@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import{
+ reservationMock,
+} from "../store/actions/reservationActions";
 import Page from "../components/Page";
 import Seats from "../components/Seats";
 import Grid from "@mui/material/Grid";
@@ -6,8 +10,11 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { Card, CardContent, Container } from "@mui/material";
+import { useSnackbar } from 'notistack';
 import encanto from "../img/promo/encanto2.jpg";
 import MovieDetailCard from "../components/MovieDetailCard";
+
+
 
 export const details = {
   img: encanto,
@@ -22,36 +29,32 @@ export const details = {
     "ENCANTO cuenta la historia de los Madrigal una familia extraordinaria que vive escondida en las montañas de Colombia, en una casa mágica, en un pueblo vibrante, en un lugar maravilloso conocido como un Encanto. La magia de este Encanto ha bendecido a todos los niños y niñas de la familia con un don único, desde súper fuerza hasta el poder de sanar. A todos, excepto a Mirabel. Pero cuando descubre que la magia que rodea al Encanto corre peligro, Mirabel decide que ella, la única Madrigal sin poderes mágicos, podría ser la última esperanza de su excepcional familia.",
 };
 
-const seatSelectedResponse = {
-  A: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
-  B: { 1: false, 2: false, 3: true, 4: true, 5: false, 6: false },
-  C: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
-  D: { 1: false, 2: false, 3: false, 4: false, 5: true, 6: true },
-};
 
-const deepClone = (object) => JSON.parse(JSON.stringify(object));
-
-const MovieDetails = () => {
+const MovieDetails = ({saveSeats,seatSelectedRedux=[],}) => {
   const [dateSelected, setDateSelected] = useState("");
   const [timeSelected, setTimeSelected] = useState("");
-  const [seatSelected, setSeatSelected] = useState(
-    deepClone(seatSelectedResponse)
-  );
+  const [seatSelected, setSeatSelected] = useState(seatSelectedRedux);
   const [seatsNumb, setSeatsNumb] = useState(0);
-
+  const {enqueueSnackbar} =useSnackbar();
   const handleSelectSeat = (row, column) => {
     setSeatsNumb(seatsNumb + 1);
-    const seatSelectedCopy = deepClone(seatSelected);
-    seatSelectedCopy[`${row}`][`${column}`] = true;
+    const seatSelectedCopy = seatSelected;
+    seatSelectedCopy.push(row+column);
     setSeatSelected(seatSelectedCopy);
   };
 
   const handleTimeSelected = (value) => {
     //llamar a la api para obtener datos de las sillas reservadas
-    setSeatSelected(deepClone(seatSelectedResponse));
+    //setSeatSelected(seatSelectedResponse);
     setSeatsNumb(0);
     setTimeSelected(value);
   };
+
+  const handleReservation=(variant)=>{
+    saveSeats(seatSelected);
+    enqueueSnackbar('Reserva Exitosa',{variant});
+    
+  }
 
   return (
     <Page>
@@ -73,7 +76,7 @@ const MovieDetails = () => {
                 </Typography>
                 <Grid container rowSpacing={2} sx={{ mt: 2 }}>
                   <Grid item xs={4}>
-                    <Typography>Fechas:</Typography>
+                    <Typography>Fechas Disponibles:</Typography>
                   </Grid>
 
                   <Grid item xs={8}>
@@ -141,7 +144,7 @@ const MovieDetails = () => {
                           }}>
                           <Typography>Numero de Sillas:{seatsNumb}</Typography>
                           <Typography>Total:${seatsNumb * 20000}</Typography>
-                          <Button variant="contained">Reservar</Button>
+                          <Button onClick={()=>handleReservation('success')} variant="contained">Reservar</Button>
                         </CardContent>
                       </Card>
                     </Grid>
@@ -152,8 +155,19 @@ const MovieDetails = () => {
           </Container>
         </Grid>
       </Container>
-    </Page>
+     </Page>
   );
 };
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveSeats:(seatsSelected)=>dispatch(reservationMock(seatsSelected))
+  };
+};
 
-export default MovieDetails;
+const mapStateToProps = (state) => {
+  return {
+    seatSelectedRedux:state.reservationMock.selectedseats,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieDetails);

@@ -50,7 +50,7 @@ const Seats = ({ seatSelected, handleSelectSeat }) => {
                     <IconButton
                       size="large"
                       color={
-                        seatSelected[`${seat.letter}`][`${number}`]
+                        seatSelected?.includes(seat.letter+number)
                           ? "primary.contrastText"
                           : "warning.main"
                       }

@@ -7,20 +7,11 @@ import { useHistory } from "react-router";
 const reservations = [
   {
     id: 1,
-    movie: "titulo",
-    date: "fecha",
-    time: "hora",
-    seats: "id sillas",
-    quantity: "cantidad",
-    isCancelable: true,
-  },
-  {
-    id: 2,
-    movie: "titulo2",
-    date: "fecha2",
-    time: "hora2",
-    seats: "id sillas2",
-    quantity: "cantidad2",
+    pelicula: "titulo",
+    fecha: "fecha",
+    hora: "hora",
+    sillas: "id sillas",
+    cantidad: "cantidad",
     isCancelable: true,
   },
 ];
@@ -41,11 +32,11 @@ const ReservationLists = () => {
           disableSelectionOnClick
           autoPageSize
           columns={[
-            { field: "movie" },
-            { field: "date" },
-            { field: "time" },
-            { field: "seats" },
-            { field: "quantity" },
+            { field: "pelicula" },
+            { field: "fecha" },
+            { field: "hora" },
+            { field: "sillas" },
+            { field: "cantidad" },
             {
               field: "actions",
               type: "actions",
