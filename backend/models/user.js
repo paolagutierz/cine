@@ -26,24 +26,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    type: String,
-    unique: true,
-    required: true,
-    trim: true,
     lowercase: true,
-    validate(value) {
-      if (!validator.isEmail(value)) {
-        throw new Error("email invalido");
-      }
-    },
   },
   password: {
     type: String,
     default: true,
     minlength: 5,
-  },
-  token: {
-    type: String,
   },
   isAdmin: { type: Boolean, default: false },
 });

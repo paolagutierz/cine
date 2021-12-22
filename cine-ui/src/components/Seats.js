@@ -42,7 +42,7 @@ const Seats = ({ seatSelected, handleSelectSeat }) => {
               textAlign: "center",
             }}>
             {" "}
-            <Typography color="primary.contrastText">Pantalla</Typography>
+            <Typography color="secondary.contrastText">Pantalla</Typography>
             <Grid container rowSpacing={2} sx={{ mt: 2 }}>
               {seats.map((seat, i) =>
                 seat.numbers.map((number, i) => (
@@ -50,8 +50,8 @@ const Seats = ({ seatSelected, handleSelectSeat }) => {
                     <IconButton
                       size="large"
                       color={
-                        seatSelected?.includes(seat.letter+number)
-                          ? "primary.contrastText"
+                        seatSelected?.includes(seat.letter + number)
+                          ? "error.contrastText"
                           : "warning.main"
                       }
                       disabled={true}

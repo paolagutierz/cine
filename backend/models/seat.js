@@ -1,11 +1,16 @@
 const mongoose = require("mongoose");
+const cinema = require("./cinema");
+const Schema = mongoose.Schema;
 
 const SeatSchema = new mongoose.Schema({
-  seatNum: {
-    type: String,
+  cinema: {
+    type: Schema.ObjectId,
+    ref: "cinema",
+    required: true,
   },
-  isAvailable: {
-    type: Boolean,
+  number: {
+    type: String,
+    required: true,
   },
 });
 module.exports = mongoose.model("seat", SeatSchema);

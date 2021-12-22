@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import{
- reservationMock,
-} from "../store/actions/reservationActions";
+import { reservationMock } from "../store/actions/reservationActions";
 import Page from "../components/Page";
 import Seats from "../components/Seats";
 import Grid from "@mui/material/Grid";
@@ -10,11 +8,9 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { Card, CardContent, Container } from "@mui/material";
-import { useSnackbar } from 'notistack';
+import { useSnackbar } from "notistack";
 import encanto from "../img/promo/encanto2.jpg";
 import MovieDetailCard from "../components/MovieDetailCard";
-
-
 
 export const details = {
   img: encanto,
@@ -29,17 +25,16 @@ export const details = {
     "ENCANTO cuenta la historia de los Madrigal una familia extraordinaria que vive escondida en las montañas de Colombia, en una casa mágica, en un pueblo vibrante, en un lugar maravilloso conocido como un Encanto. La magia de este Encanto ha bendecido a todos los niños y niñas de la familia con un don único, desde súper fuerza hasta el poder de sanar. A todos, excepto a Mirabel. Pero cuando descubre que la magia que rodea al Encanto corre peligro, Mirabel decide que ella, la única Madrigal sin poderes mágicos, podría ser la última esperanza de su excepcional familia.",
 };
 
-
-const MovieDetails = ({saveSeats,seatSelectedRedux=[],}) => {
+const MovieDetails = ({ saveSeats, seatSelectedRedux = [] }) => {
   const [dateSelected, setDateSelected] = useState("");
   const [timeSelected, setTimeSelected] = useState("");
   const [seatSelected, setSeatSelected] = useState(seatSelectedRedux);
   const [seatsNumb, setSeatsNumb] = useState(0);
-  const {enqueueSnackbar} =useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const handleSelectSeat = (row, column) => {
     setSeatsNumb(seatsNumb + 1);
     const seatSelectedCopy = seatSelected;
-    seatSelectedCopy.push(row+column);
+    seatSelectedCopy.push(row + column);
     setSeatSelected(seatSelectedCopy);
   };
 
@@ -50,11 +45,10 @@ const MovieDetails = ({saveSeats,seatSelectedRedux=[],}) => {
     setTimeSelected(value);
   };
 
-  const handleReservation=(variant)=>{
+  const handleReservation = (variant) => {
     saveSeats(seatSelected);
-    enqueueSnackbar('Reserva Exitosa',{variant});
-    
-  }
+    enqueueSnackbar("Reserva Exitosa", { variant });
+  };
 
   return (
     <Page>
@@ -141,10 +135,20 @@ const MovieDetails = ({saveSeats,seatSelectedRedux=[],}) => {
                           sx={{
                             display: "flex",
                             justifyContent: "space-between",
+                            backgroundColor: "primary.dark",
                           }}>
-                          <Typography>Numero de Sillas:{seatsNumb}</Typography>
-                          <Typography>Total:${seatsNumb * 20000}</Typography>
-                          <Button onClick={()=>handleReservation('success')} variant="contained">Reservar</Button>
+                          <Typography color="secondary.contrastText">
+                            Numero de Sillas:{seatsNumb}
+                          </Typography>
+                          <Typography color="secondary.contrastText">
+                            Total:${seatsNumb * 20000}
+                          </Typography>
+                          <Button
+                            onClick={() => handleReservation("success")}
+                            variant="contained"
+                            color="error">
+                            Reservar
+                          </Button>
                         </CardContent>
                       </Card>
                     </Grid>
@@ -155,18 +159,18 @@ const MovieDetails = ({saveSeats,seatSelectedRedux=[],}) => {
           </Container>
         </Grid>
       </Container>
-     </Page>
+    </Page>
   );
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveSeats:(seatsSelected)=>dispatch(reservationMock(seatsSelected))
+    saveSeats: (seatsSelected) => dispatch(reservationMock(seatsSelected)),
   };
 };
 
 const mapStateToProps = (state) => {
   return {
-    seatSelectedRedux:state.reservationMock.selectedseats,
+    seatSelectedRedux: state.reservationMock.selectedseats,
   };
 };
 

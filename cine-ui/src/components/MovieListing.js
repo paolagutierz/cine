@@ -45,6 +45,7 @@ const MovieListing = ({ img, tittle, format, description }) => {
         </CardContent>
         <CardActions>
           <Button
+            color="error"
             variant="contained"
             onClick={(e) =>
               handleRedirect(e, `/movies/${tittle}`.toLowerCase())

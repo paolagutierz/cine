@@ -4,7 +4,6 @@ import { logoutAction } from "../store/actions/loginActions";
 //MaterialUI
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
 import MenuItem from "@mui/material/MenuItem";
@@ -12,6 +11,7 @@ import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { useHistory } from "react-router";
+import Typography from "../components/Typography";
 
 const Navbar = ({ logout, user }) => {
   const history = useHistory();
@@ -36,9 +36,9 @@ const Navbar = ({ logout, user }) => {
         <Toolbar sx={{ flexWrap: "wrap" }}>
           <div style={{ flexGrow: 1 }}>
             <Button
-              color="disabled"
-              variant="h2"
+              variant="h1"
               noWrap
+              gutterBottom
               onClick={(e) => handleRedirect(e, "/")}>
               Cidenet Pictures
             </Button>

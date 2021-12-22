@@ -1,32 +1,30 @@
 const mongoose = require("mongoose");
-const { Schema } = mongoose;
+const Schema = mongoose.Schema;
+const movieShow = require("./movieShow");
 
 const ReservationSchema = new mongoose.Schema({
-  date: {
-    type: Date,
+  user: {
+    type: Schema.ObjectId,
+    ref: "user",
     required: true,
   },
-  time: {
-    type: Date,
+  movieShow: {
+    type: Schema.ObjectId,
+    ref: "movieShow",
     required: true,
   },
-  seatId: {
+  created: {
     type: String,
-    required: true,
-  },
-  ticket: {
-    type: Schema.Types.ObjectId,
-    ref: "ticket",
     required: true,
   },
   price: {
     type: String,
     required: true,
   },
-  movieId: {
-    type: Schema.Types.ObjectId,
-    ref: "movie",
-    required: true,
+  status: {
+    type: String,
+    enum: ["canceled", "pending", "expired"],
+    default: "pending",
   },
 });
 

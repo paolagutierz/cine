@@ -1,11 +1,17 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const movie = require("./movie");
+const cinema = require("./cinema");
 
 const MovieShowSchema = new mongoose.Schema({
-  id: {
-    type: string,
+  movie: {
+    type: Schema.ObjectId,
+    ref: "movie",
+    required: true,
   },
-  date: {
-    type: Date,
+  cinema: {
+    type: Schema.ObjectId,
+    ref: "cinema",
     required: true,
   },
   startTime: {
@@ -14,21 +20,7 @@ const MovieShowSchema = new mongoose.Schema({
     trim: true,
   },
   endTime: {
-    type: Date,
-    required: true,
-  },
-  movieId: {
-    type: Schema.Types.ObjectId,
-    ref: "movie",
-    required: true,
-  },
-  seatAvailable: {
-    type: [Schema.Types.Mixed],
-    ref: "seat",
-    required: true,
-  },
-  ticketPrice: {
-    type: string,
+    type: String,
     required: true,
   },
 });

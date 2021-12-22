@@ -1,19 +1,23 @@
 const mongoose = require("mongoose");
-const { Schema } = mongoose;
+const Schema = mongoose.Schema;
+const reservation = require("./reservation");
+const seat = require("./seat");
+
 const TicketSchema = new mongoose.Schema({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: "user",
+  reservation: {
+    type: Schema.ObjectId,
+    ref: "reservation",
     required: true,
   },
-  reservation: {
-    type: Schema.Types.ObjectId,
-    ref: "reservation",
+  seat: {
+    type: Schema.ObjectId,
+    ref: "seat",
     required: true,
   },
   status: {
     type: String,
     enum: ["canceled", "pending", "expired"],
+    default: "pending",
   },
 });
 
