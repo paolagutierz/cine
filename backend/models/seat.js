@@ -11,6 +11,7 @@ const SeatSchema = new mongoose.Schema({
   number: {
     type: String,
     required: true,
+    unique: true,
   },
 });
 module.exports = mongoose.model("seat", SeatSchema);

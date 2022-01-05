@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 });
 
 // Create Cinema
-router.post("/", async (req, res) => {
+router.post("/", verifyAdmin, async (req, res) => {
   const cinema = new Cinema({
     number: req.body.number,
     sort: req.body.sort,
@@ -43,7 +43,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // Update cinema
-router.put("/:id", async (req, res) => {
+router.put("/:id", verifyAdmin, async (req, res) => {
   let cinema;
 
   try {

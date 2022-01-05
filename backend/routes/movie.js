@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
 // Create movie
 router.post("/", verifyAdmin, async (req, res) => {
   const movie = new Movie({
-    name: req.body.name,
+    tittle: req.body.tittle,
     genre: req.body.genre,
     description: req.body.description,
     image: req.body.image,
@@ -54,7 +54,7 @@ router.put("/:id", verifyAdmin, async (req, res) => {
 
   try {
     movie = await Movie.findById(req.params.id);
-    movie.name = req.body.name;
+    movie.tittle = req.body.tittle;
     movie.genre = req.body.genre;
     movie.description = req.body.description;
     movie.image = req.body.image;

@@ -10,8 +10,7 @@ const seatRoute = require("./routes/seat");
 const movieShowRoute = require("./routes/movieShow");
 const reservationRoute = require("./routes/reservation");
 const ticketRoute = require("./routes/ticket");
-const email = require("./services/email/email");
-const config = require("./services/email/config.json");
+const emailRoute = require("./routes/email");
 
 const cors = require("cors");
 
@@ -38,6 +37,7 @@ app.use("/api/seat", seatRoute);
 app.use("/api/movieShow", movieShowRoute);
 app.use("/api/reservation", reservationRoute);
 app.use("/api/ticket", ticketRoute);
+app.use("/api/email", emailRoute);
 
 app.listen(5000, () => {
   console.log("Backend server is running!");
