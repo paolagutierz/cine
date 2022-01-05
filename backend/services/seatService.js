@@ -1,5 +1,5 @@
-import Reservation from "../models/reservation";
-import Ticket from "../models/ticket";
+const Reservation = require("../models/reservation");
+const Ticket = require("../models/ticket");
 
 const seatService = {};
 
