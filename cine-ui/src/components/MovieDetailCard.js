@@ -5,11 +5,11 @@ import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
-const MovieDetailCard = ({ img, tittle, description }) => {
+const MovieDetailCard = ({ img, title, description }) => {
   return (
     <Grid item xs={4}>
       <Card sx={{ maxWidth: 400 }}>
-        <CardMedia component="img" height="400" image={img} alt={tittle} />
+        <CardMedia component="img" height="400" image={img} alt={title} />
         <CardContent>
           <Typography variant="body2" color="text.secondary">
             {description}

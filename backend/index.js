@@ -11,12 +11,14 @@ const movieShowRoute = require("./routes/movieShow");
 const reservationRoute = require("./routes/reservation");
 const ticketRoute = require("./routes/ticket");
 const emailRoute = require("./routes/email");
-
+const bodyParser = require("body-parser");
 const cors = require("cors");
+
+const path = require("path");
 
 dotenv.config();
 app.use(cors());
-
+app.use(bodyParser.urlencoded({ extended: true }));
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
@@ -26,6 +28,15 @@ mongoose
   .catch((err) => {
     console.error(err);
   });
+
+// static files
+app.use(express.static(path.join(__dirname, "public")));
+app.use("/uploads", express.static("uploads"));
+
+//forward all HTTP GET requests to client side
+app.get("*", function (req, res) {
+  res.sendFile(__dirname + "/path/to/index.html");
+});
 
 app.use(express.json());
 

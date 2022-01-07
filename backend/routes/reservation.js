@@ -63,7 +63,7 @@ router.post("/", async (req, res) => {
           await ticket.save();
           ticketArr.push({
             to: userInfo.email,
-            movie: showtime.movie.tittle,
+            movie: showtime.movie.title,
             date: moment(showtime.startTime).format("YYYY-MM-DD"),
             time: moment(showtime.startTime).format("HH:mm"),
             cinema: showtime.cinema.number,

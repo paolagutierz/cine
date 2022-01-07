@@ -9,22 +9,22 @@ const MovieListings = () => {
   const listings = [
     {
       img: encanto,
-      tittle: "Encanto",
+      title: "Encanto",
       format: "2D",
     },
     {
       img: venom,
-      tittle: "Venom",
+      title: "Venom",
       format: "2D",
     },
     {
       img: encanto,
-      tittle: "Encanto",
+      title: "Encanto",
       format: "3D",
     },
     {
       img: venom,
-      tittle: "Venom",
+      title: "Venom",
       format: "2D",
     },
   ];
@@ -36,7 +36,7 @@ const MovieListings = () => {
           <MovieListing
             key={i}
             img={listing.img}
-            tittle={listing.tittle}
+            title={listing.title}
             format={listing.format}></MovieListing>
         ))}
       </Grid>

@@ -24,7 +24,7 @@ const dashboardMovie = ({
   updateMovieAction,
   removeMovieAction,
 }) => {
-  const [tittle, setTittle] = useState("");
+  const [title, setTitle] = useState("");
   const [genre, setGenre] = useState("");
   const [description, setDescription] = useState("");
   const [format, setFormat] = useState("");
@@ -38,7 +38,7 @@ const dashboardMovie = ({
     createMovieAction();
 
     const movie = {
-      tittle,
+      title,
       genre,
       description,
       format,

@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { Container } from "@mui/material";
 
-const MovieDetail = ({ img, tittle, format, schedules, description }) => {
+const MovieDetail = ({ img, title, format, schedules, description }) => {
   return (
     <Container>
       <Grid
@@ -18,7 +18,7 @@ const MovieDetail = ({ img, tittle, format, schedules, description }) => {
         sx={{ mt: 4 }}>
         <Grid item xs={4}>
           <Card sx={{ maxWidth: 400 }}>
-            <CardMedia component="img" height="400" image={img} alt={tittle} />
+            <CardMedia component="img" height="400" image={img} alt={title} />
             <CardContent>
               <Typography variant="body2" color="text.secondary">
                 {description}
@@ -28,7 +28,7 @@ const MovieDetail = ({ img, tittle, format, schedules, description }) => {
         </Grid>
         <Grid item xs={8}>
           <Typography gutterBottom variant="h5" component="div">
-            {tittle} {format}
+            {title} {format}
           </Typography>
           <Grid container>
             <ButtonGroup size="large" aria-label="large button group">

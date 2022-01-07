@@ -14,7 +14,7 @@ import MovieDetailCard from "../components/MovieDetailCard";
 
 export const details = {
   img: encanto,
-  tittle: "Encanto",
+  title: "Encanto",
   format: "2D",
   schedules: [
     { date: "14/11/2021", time: ["13:00", "16:00"] },
@@ -62,11 +62,11 @@ const MovieDetails = ({ saveSeats, seatSelectedRedux = [] }) => {
               sx={{ mt: 4 }}>
               <MovieDetailCard
                 img={details.img}
-                tittle={details.tittle}
+                title={details.title}
                 description={details.description}></MovieDetailCard>
               <Grid item xs={8}>
                 <Typography gutterBottom variant="h5" component="div">
-                  {details.tittle} {details.format}
+                  {details.title} {details.format}
                 </Typography>
                 <Grid container rowSpacing={2} sx={{ mt: 2 }}>
                   <Grid item xs={4}>

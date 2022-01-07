@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
 // Create movie
 router.post("/", verifyAdmin, async (req, res) => {
   const movie = new Movie({
-    tittle: req.body.tittle,
+    title: req.body.title,
     genre: req.body.genre,
     description: req.body.description,
     image: req.body.image,
@@ -35,30 +35,6 @@ router.post("/", verifyAdmin, async (req, res) => {
     return res.status(500).json(err);
   }
 });
-router.post(
-  "/movies/photo/:id",
-  upload("movie").single("file"),
-  async (req, res, next) => {
-    const url = `${req.protocol}://${req.get("host")}`;
-    const { file } = req;
-    const movieId = req.params.id;
-    try {
-      if (!file) {
-        const error = new Error("Please upload a file");
-        error.httpStatusCode = 400;
-        return next(error);
-      }
-      const movie = await Movie.findById(movieId);
-      if (!movie) return res.sendStatus(404);
-      movie.image = `${url}/${file.path}`;
-      await movie.save();
-      res.send({ movie, file });
-    } catch (e) {
-      console.log(e);
-      res.sendStatus(400).send(e);
-    }
-  }
-);
 
 // Show movie
 router.get("/:id", async (req, res) => {
@@ -76,7 +52,7 @@ router.put("/:id", verifyAdmin, async (req, res) => {
 
   try {
     movie = await Movie.findById(req.params.id);
-    movie.tittle = req.body.tittle;
+    movie.title = req.body.title;
     movie.genre = req.body.genre;
     movie.description = req.body.description;
     movie.image = req.body.image;
@@ -102,6 +78,32 @@ router.delete("/:id", verifyAdmin, async (req, res) => {
   } catch (err) {
     return res.status(500).json(err);
   }
+
+  //upload image
+  router.post(
+    "/image/:id",
+    upload("movie").single("file"),
+    async (req, res, next) => {
+      const url = `${req.protocol}://${req.get("host")}`;
+      const { file } = req;
+      const movieId = req.params.id;
+      try {
+        if (!file) {
+          const error = new Error("Please upload a file");
+          error.httpStatusCode = 400;
+          return next(error);
+        }
+        const movie = await Movie.findById(movieId);
+        if (!movie) return res.sendStatus(404);
+        movie.image = `${url}/${file.path}`;
+        await movie.save();
+        res.send({ movie, file });
+      } catch (e) {
+        console.log(e);
+        res.sendStatus(400).send(e);
+      }
+    }
+  );
 });
 
 module.exports = router;

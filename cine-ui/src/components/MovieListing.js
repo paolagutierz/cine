@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { useHistory } from "react-router";
 
-const MovieListing = ({ img, tittle, format, description }) => {
+const MovieListing = ({ img, title, format, description }) => {
   const history = useHistory();
   const handleRedirect = (e, path) => {
     e.preventDefault();
@@ -30,11 +30,11 @@ const MovieListing = ({ img, tittle, format, description }) => {
           component="img"
           height="auto"
           image={img}
-          alt={tittle}
+          alt={title}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {tittle}
+            {title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             Formato:{format}
@@ -48,7 +48,7 @@ const MovieListing = ({ img, tittle, format, description }) => {
             color="error"
             variant="contained"
             onClick={(e) =>
-              handleRedirect(e, `/movies/${tittle}`.toLowerCase())
+              handleRedirect(e, `/movies/${title}`.toLowerCase())
             }>
             Ver Detalles
           </Button>
