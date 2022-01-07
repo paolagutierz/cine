@@ -94,6 +94,19 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// Show reservation by user
+router.get("/user/:id", async (req, res) => {
+  try {
+    const reservation = await Reservation.find({ user: req.params.id })
+      .populate("user")
+      .populate("movieShow")
+      .exec();
+    return res.status(200).json(reservation);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
 // Update reservation
 router.put("/:id", async (req, res) => {
   let reservation;
