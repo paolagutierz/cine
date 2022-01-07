@@ -42,6 +42,22 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+//show tickets by reservation
+router.get("/reservation/:id", async (req, res) => {
+  try {
+    const ticket = await Ticket.find({
+      reservation: req.params.id,
+      status: "pending",
+    })
+      .populate("reservation")
+      .populate("seat")
+      .exec();
+    return res.status(200).json(ticket);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
 // Update ticket
 router.put("/:id", async (req, res) => {
   let ticket;

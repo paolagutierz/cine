@@ -63,7 +63,6 @@ router.put("/:id", async (req, res) => {
 
 //update seat status:release seat
 router.put("/reservation/:id", async (req, res) => {
-  //recibimos array de sillas
   try {
     await Promise.all(
       req.body.seats.map(async (number) => {

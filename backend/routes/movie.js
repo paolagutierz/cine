@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Movie = require("../models/movie");
 const verifyAdmin = require("../middleware/verifyTokenAdmin");
-const imageMimeTypes = ["image/jpeg", "image/png", "images/gif"];
+const upload = require("../services/multer");
 
 // All movies
 router.get("/", async (req, res) => {
@@ -28,8 +28,6 @@ router.post("/", verifyAdmin, async (req, res) => {
     format: req.body.format,
     duration: req.body.duration,
   });
-  saveCover(movie, req.body.cover);
-
   try {
     const newMovie = await movie.save();
     return res.status(201).json(newMovie);
@@ -37,6 +35,30 @@ router.post("/", verifyAdmin, async (req, res) => {
     return res.status(500).json(err);
   }
 });
+router.post(
+  "/movies/photo/:id",
+  upload("movie").single("file"),
+  async (req, res, next) => {
+    const url = `${req.protocol}://${req.get("host")}`;
+    const { file } = req;
+    const movieId = req.params.id;
+    try {
+      if (!file) {
+        const error = new Error("Please upload a file");
+        error.httpStatusCode = 400;
+        return next(error);
+      }
+      const movie = await Movie.findById(movieId);
+      if (!movie) return res.sendStatus(404);
+      movie.image = `${url}/${file.path}`;
+      await movie.save();
+      res.send({ movie, file });
+    } catch (e) {
+      console.log(e);
+      res.sendStatus(400).send(e);
+    }
+  }
+);
 
 // Show movie
 router.get("/:id", async (req, res) => {
@@ -81,14 +103,5 @@ router.delete("/:id", verifyAdmin, async (req, res) => {
     return res.status(500).json(err);
   }
 });
-
-function saveCover(movie, coverEncoded) {
-  if (coverEncoded == null) return;
-  const cover = JSON.parse(coverEncoded);
-  if (cover != null && imageMimeTypes.includes(cover.type)) {
-    movie.coverImage = new Buffer.from(cover.data, "base64");
-    movie.coverImageType = cover.type;
-  }
-}
 
 module.exports = router;
