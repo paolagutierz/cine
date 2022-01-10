@@ -31,12 +31,12 @@ mongoose
 
 // static files
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/uploads", express.static("uploads"));
+app.use("public/uploads", express.static("uploads"));
 
 //forward all HTTP GET requests to client side
-app.get("*", function (req, res) {
-  res.sendFile(__dirname + "/path/to/index.html");
-});
+//app.get("*", function (req, res) {
+// res.sendFile(__dirname + "/path/to/index.html");
+//});
 
 app.use(express.json());
 

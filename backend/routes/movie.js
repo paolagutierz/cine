@@ -81,7 +81,7 @@ router.delete("/:id", verifyAdmin, async (req, res) => {
 
   //upload image
   router.post(
-    "/image/:id",
+    "/movie/upload",
     upload("movie").single("file"),
     async (req, res, next) => {
       const url = `${req.protocol}://${req.get("host")}`;
