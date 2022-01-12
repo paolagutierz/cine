@@ -13,7 +13,7 @@ const seats = [
   { letter: "D", numbers: [1, 2, 3, 4, 5, 6] },
 ];
 
-const Seats = ({ seatSelected, handleSelectSeat }) => {
+const Seats = ({ seatSelected, handleSelectSeat, seatReserved }) => {
   return (
     <Container
       fixed
@@ -50,7 +50,8 @@ const Seats = ({ seatSelected, handleSelectSeat }) => {
                     <IconButton
                       size="large"
                       color={
-                        seatSelected?.includes(seat.letter + number)
+                        seatSelected?.includes(seat.letter + number) ||
+                        seatReserved?.includes(seat.letter + number)
                           ? "error.contrastText"
                           : "warning.main"
                       }

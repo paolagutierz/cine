@@ -1,16 +1,19 @@
 const multer = require("multer");
 
 //set storage engine
-const storage = multer.diskStorage({
-  destination: "./public/uploads/",
+/* const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, "./public/uploads/"),
   filename: (req, file, cb) => {
     cb(null, file.fieldname + "-" + Date.now) + path.extname(file.originalname);
   },
-});
+}); */
 
 //init upload
-const upload = (path) =>
-  multer({
+//const upload = multer({ storage: storage });
+
+//init upload
+//const upload = (path) =>
+/*multer({
     storage: storage(path),
     fileFilter: (req, file, cb) => {
       //allowed ext
@@ -28,5 +31,6 @@ const upload = (path) =>
       }
     },
   });
+  */
 
 module.exports = upload;

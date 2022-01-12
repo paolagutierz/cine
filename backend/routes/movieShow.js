@@ -33,9 +33,10 @@ router.post("/", async (req, res) => {
 });
 
 // Show Movie Show
-router.get("/:id", async (req, res) => {
+router.get("/movie/:id", async (req, res) => {
   try {
-    const movieShow = await MovieShow.findById(req.params.id)
+    const movieShow = await MovieShow.find({ movie: req.params.id })
+      .sort({ startTime: "asc" })
       .populate("cinema")
       .populate("movie")
       .exec();

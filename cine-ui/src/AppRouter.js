@@ -27,7 +27,7 @@ const AppRouter = ({ user }) => {
             <MovieListings />
           </Page>
         </Route>
-        <Route path="/movies/:title">
+        <Route path="/movies/:id">
           <MovieDetails />
         </Route>
 

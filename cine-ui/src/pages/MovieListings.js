@@ -1,33 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import encanto from "../img/promo/encanto2.jpg";
 import venom from "../img/promo/venom.png";
 import Grid from "@mui/material/Grid";
 import MovieListing from "../components/MovieListing";
 import { Container } from "@mui/material";
+import axios from "axios";
 
 const MovieListings = () => {
-  const listings = [
-    {
-      img: encanto,
-      title: "Encanto",
-      format: "2D",
-    },
-    {
-      img: venom,
-      title: "Venom",
-      format: "2D",
-    },
-    {
-      img: encanto,
-      title: "Encanto",
-      format: "3D",
-    },
-    {
-      img: venom,
-      title: "Venom",
-      format: "2D",
-    },
-  ];
+  const [listings, setListings] = useState([]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(async () => {
+    const response = await axios.get("movies");
+
+    setListings(response.data);
+  }, []);
 
   return (
     <Container fixed>
@@ -35,9 +22,12 @@ const MovieListings = () => {
         {listings.map((listing, i) => (
           <MovieListing
             key={i}
-            img={listing.img}
+            img={i % 2 ? encanto : venom}
             title={listing.title}
-            format={listing.format}></MovieListing>
+            format={listing.format}
+            description={listing.description}
+            id={listing._id}
+          />
         ))}
       </Grid>
     </Container>

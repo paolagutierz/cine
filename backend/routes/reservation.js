@@ -2,23 +2,13 @@ const express = require("express");
 const router = express.Router();
 const Reservation = require("../models/reservation");
 const Movieshow = require("../models/movieShow");
+const Movie = require("../models/movie");
 const Ticket = require("../models/ticket");
 const User = require("../models/User");
 const Seat = require("../models/seat");
 const moment = require("moment");
 const verifyAdmin = require("../middleware/verifyTokenAdmin");
 const seatService = require("../services/seatService");
-
-// All reservations
-router.get("/", async (req, res) => {
-  let query = Reservation.find().populate("user").populate("movieShow");
-  try {
-    const reservation = await query.exec();
-    res.status(200).json(reservation);
-  } catch (err) {
-    return res.status(500).json(err);
-  }
-});
 
 // Create reservation
 router.post("/", async (req, res) => {
@@ -54,7 +44,7 @@ router.post("/", async (req, res) => {
       req.body.seats.map(async (seatNumber) => {
         try {
           const seat = await Seat.findOne({ number: seatNumber });
-
+          console.log(seatNumber);
           const ticket = new Ticket({
             reservation: newReservation.id,
             seat: seat.id,
@@ -99,7 +89,10 @@ router.get("/user/:id", async (req, res) => {
   try {
     const reservation = await Reservation.find({ user: req.params.id })
       .populate("user")
-      .populate("movieShow")
+      .populate({
+        path: "movieShow",
+        populate: { path: "movie", model: Movie },
+      })
       .exec();
     return res.status(200).json(reservation);
   } catch (err) {

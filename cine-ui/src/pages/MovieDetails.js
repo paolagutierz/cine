@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { connect } from "react-redux";
-import { reservationMock } from "../store/actions/reservationActions";
 import Page from "../components/Page";
 import Seats from "../components/Seats";
 import Grid from "@mui/material/Grid";
@@ -11,43 +11,106 @@ import { Card, CardContent, Container } from "@mui/material";
 import { useSnackbar } from "notistack";
 import encanto from "../img/promo/encanto2.jpg";
 import MovieDetailCard from "../components/MovieDetailCard";
+import { useParams } from "react-router-dom";
 
-export const details = {
-  img: encanto,
-  title: "Encanto",
-  format: "2D",
-  schedules: [
-    { date: "14/11/2021", time: ["13:00", "16:00"] },
-    { date: "15/11/2021", time: ["9:00", "18:00", "21:00"] },
-    { date: "16/11/2021", time: ["17:00", "20:00", "22:00"] },
-  ],
-  description:
-    "ENCANTO cuenta la historia de los Madrigal una familia extraordinaria que vive escondida en las montañas de Colombia, en una casa mágica, en un pueblo vibrante, en un lugar maravilloso conocido como un Encanto. La magia de este Encanto ha bendecido a todos los niños y niñas de la familia con un don único, desde súper fuerza hasta el poder de sanar. A todos, excepto a Mirabel. Pero cuando descubre que la magia que rodea al Encanto corre peligro, Mirabel decide que ella, la única Madrigal sin poderes mágicos, podría ser la última esperanza de su excepcional familia.",
-};
+const MovieDetails = ({ user }) => {
+  const { id } = useParams();
+  const { enqueueSnackbar } = useSnackbar();
 
-const MovieDetails = ({ saveSeats, seatSelectedRedux = [] }) => {
   const [dateSelected, setDateSelected] = useState("");
   const [timeSelected, setTimeSelected] = useState("");
-  const [seatSelected, setSeatSelected] = useState(seatSelectedRedux);
+  const [seatSelected, setSeatSelected] = useState([]);
   const [seatsNumb, setSeatsNumb] = useState(0);
-  const { enqueueSnackbar } = useSnackbar();
+  const [seatReserved, setSeatReserved] = useState();
+  const [movie, setMovie] = useState();
+  const [schedules, setSchedules] = useState([]);
+  const [showTimes, setShowTimes] = useState();
+  const [showTimeSelected, setShowTimeSelected] = useState();
+
   const handleSelectSeat = (row, column) => {
+    if (
+      seatSelected.includes(row + column) ||
+      seatReserved.includes(row + column)
+    ) {
+      return;
+    }
     setSeatsNumb(seatsNumb + 1);
     const seatSelectedCopy = seatSelected;
     seatSelectedCopy.push(row + column);
     setSeatSelected(seatSelectedCopy);
   };
 
-  const handleTimeSelected = (value) => {
-    //llamar a la api para obtener datos de las sillas reservadas
-    //setSeatSelected(seatSelectedResponse);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(async () => {
+    const movieResponse = await axios.get(
+      `http://localhost:5000/api/movies/${id}`
+    );
+    const showtimeResponse = await axios.get(
+      `http://localhost:5000/api/movieShow/movie/${id}`
+    );
+
+    const schedules = [];
+
+    showtimeResponse.data.forEach((showtime) => {
+      const startTime = showtime.startTime;
+      const dateTime = startTime.split("T");
+      const date = dateTime[0];
+      const time = dateTime[1];
+
+      let schedule = schedules.find((schedule) => schedule.date === date);
+      if (schedule) {
+        schedule.time.push(time);
+      } else {
+        schedule = { date, time: [time] };
+        schedules.push(schedule);
+      }
+    });
+
+    setSchedules(schedules);
+    setShowTimes(showtimeResponse.data);
+    setMovie(movieResponse.data);
+  }, []);
+
+  //
+  const handleTimeSelected = async (timeSelected) => {
+    const showtimeSelected = showTimes.find((showtime) => {
+      const dateTime = dateSelected + "T" + timeSelected;
+      return showtime.startTime === dateTime;
+    });
+    setShowTimeSelected(showtimeSelected);
+
+    // obtener datos de las sillas reservadas
+    const seatReservedResponse = await axios.get(
+      `http://localhost:5000/api/seat/movieshow/${showtimeSelected._id}`
+    );
+
+    setSeatReserved(seatReservedResponse.data);
     setSeatsNumb(0);
-    setTimeSelected(value);
+    setTimeSelected(timeSelected);
   };
 
-  const handleReservation = (variant) => {
-    saveSeats(seatSelected);
+  const handleReservation = async (variant) => {
+    if (!user) {
+      enqueueSnackbar("Si no tienes una cuenta, registrate", {
+        variant: "warning",
+      });
+      return;
+    }
+    const body = {
+      user: user._id,
+      movieShow: showTimeSelected._id,
+      price: showTimeSelected.cinema.price * seatSelected.length,
+      seats: seatSelected,
+    };
+
+    await axios.post(`http://localhost:5000/api/reservation/`, body);
     enqueueSnackbar("Reserva Exitosa", { variant });
+  };
+
+  const handleDateSelected = (date) => {
+    setTimeSelected("");
+    setSeatsNumb(0);
+    setDateSelected(date);
   };
 
   return (
@@ -55,123 +118,120 @@ const MovieDetails = ({ saveSeats, seatSelectedRedux = [] }) => {
       <Container fixed>
         <Grid container spacing={2} sx={{ minheight: "75vh" }}>
           <Container>
-            <Grid
-              container
-              rowSpacing={1}
-              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-              sx={{ mt: 4 }}>
-              <MovieDetailCard
-                img={details.img}
-                title={details.title}
-                description={details.description}></MovieDetailCard>
-              <Grid item xs={8}>
-                <Typography gutterBottom variant="h5" component="div">
-                  {details.title} {details.format}
-                </Typography>
-                <Grid container rowSpacing={2} sx={{ mt: 2 }}>
-                  <Grid item xs={4}>
-                    <Typography>Fechas Disponibles:</Typography>
-                  </Grid>
+            {movie && (
+              <Grid
+                container
+                rowSpacing={1}
+                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                sx={{ mt: 4 }}>
+                <MovieDetailCard
+                  img={encanto}
+                  title={movie.title}
+                  description={movie.description}></MovieDetailCard>
+                <Grid item xs={8}>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {movie.title} {movie.format}
+                  </Typography>
 
-                  <Grid item xs={8}>
-                    <ButtonGroup size="large" aria-label="large button group">
-                      {details.schedules.map((schedule, i) => (
-                        <Button
-                          variant={
-                            dateSelected === schedule.date
-                              ? "contained"
-                              : "outlined"
-                          }
-                          key={i}
-                          onClick={() => setDateSelected(schedule.date)}>
-                          {schedule.date}
-                        </Button>
-                      ))}
-                    </ButtonGroup>
-                  </Grid>
-
-                  {dateSelected !== "" && (
-                    <>
-                      <Grid item xs={4}>
-                        <Typography>Horas:</Typography>
-                      </Grid>
-                      <Grid item xs={8}>
-                        <ButtonGroup
-                          size="large"
-                          aria-label="large button group">
-                          {details.schedules
-                            .filter(
-                              (schedule) => schedule.date === dateSelected
-                            )[0]
-                            .time.map((value, i) => (
-                              <Button
-                                variant={
-                                  timeSelected === value
-                                    ? "contained"
-                                    : "outlined"
-                                }
-                                key={i}
-                                onClick={() => handleTimeSelected(value)}>
-                                {value}
-                              </Button>
-                            ))}
-                        </ButtonGroup>
-                      </Grid>
-                    </>
-                  )}
-
-                  {timeSelected !== "" && (
-                    <Grid item xs={12}>
-                      <Seats
-                        seatSelected={seatSelected}
-                        handleSelectSeat={handleSelectSeat}></Seats>
+                  <Grid container rowSpacing={2} sx={{ mt: 2 }}>
+                    <Grid item xs={4}>
+                      <Typography>Fechas Disponibles:</Typography>
                     </Grid>
-                  )}
 
-                  {seatsNumb > 0 && (
-                    <Grid item xs={12}>
-                      <Card>
-                        <CardContent
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            backgroundColor: "primary.dark",
-                          }}>
-                          <Typography color="secondary.contrastText">
-                            Numero de Sillas:{seatsNumb}
-                          </Typography>
-                          <Typography color="secondary.contrastText">
-                            Total:${seatsNumb * 20000}
-                          </Typography>
+                    <Grid item xs={8}>
+                      <ButtonGroup size="large" aria-label="large button group">
+                        {schedules.map((schedule, i) => (
                           <Button
-                            onClick={() => handleReservation("success")}
-                            variant="contained"
-                            color="error">
-                            Reservar
+                            variant={
+                              dateSelected === schedule.date
+                                ? "contained"
+                                : "outlined"
+                            }
+                            key={i}
+                            onClick={() => handleDateSelected(schedule.date)}>
+                            {schedule.date}
                           </Button>
-                        </CardContent>
-                      </Card>
+                        ))}
+                      </ButtonGroup>
                     </Grid>
-                  )}
+
+                    {dateSelected !== "" && (
+                      <>
+                        <Grid item xs={4}>
+                          <Typography>Horas:</Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                          <ButtonGroup
+                            size="large"
+                            aria-label="large button group">
+                            {schedules
+                              .filter(
+                                (schedule) => schedule.date === dateSelected
+                              )[0]
+                              .time.map((value, i) => (
+                                <Button
+                                  variant={
+                                    timeSelected === value
+                                      ? "contained"
+                                      : "outlined"
+                                  }
+                                  key={i}
+                                  onClick={() => handleTimeSelected(value)}>
+                                  {value}
+                                </Button>
+                              ))}
+                          </ButtonGroup>
+                        </Grid>
+                      </>
+                    )}
+
+                    {timeSelected !== "" && (
+                      <Grid item xs={12}>
+                        <Seats
+                          seatSelected={seatSelected}
+                          handleSelectSeat={handleSelectSeat}
+                          seatReserved={seatReserved}></Seats>
+                      </Grid>
+                    )}
+
+                    {seatsNumb > 0 && (
+                      <Grid item xs={12}>
+                        <Card>
+                          <CardContent
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              backgroundColor: "primary.dark",
+                            }}>
+                            <Typography color="secondary.contrastText">
+                              Numero de Sillas:{seatsNumb}
+                            </Typography>
+                            <Typography color="secondary.contrastText">
+                              Total:${seatsNumb * 20000}
+                            </Typography>
+                            <Button
+                              onClick={() => handleReservation("success")}
+                              variant="contained"
+                              color="error">
+                              Reservar
+                            </Button>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    )}
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
+            )}
           </Container>
         </Grid>
       </Container>
     </Page>
   );
 };
-const mapDispatchToProps = (dispatch) => {
-  return {
-    saveSeats: (seatsSelected) => dispatch(reservationMock(seatsSelected)),
-  };
-};
 
 const mapStateToProps = (state) => {
-  return {
-    seatSelectedRedux: state.reservationMock.selectedseats,
-  };
+  return { user: state.login?.user };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MovieDetails);
+export default connect(mapStateToProps, null)(MovieDetails);

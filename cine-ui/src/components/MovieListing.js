@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { useHistory } from "react-router";
 
-const MovieListing = ({ img, title, format, description }) => {
+const MovieListing = ({ img, title, format, description, id }) => {
   const history = useHistory();
   const handleRedirect = (e, path) => {
     e.preventDefault();
@@ -47,9 +47,7 @@ const MovieListing = ({ img, title, format, description }) => {
           <Button
             color="error"
             variant="contained"
-            onClick={(e) =>
-              handleRedirect(e, `/movies/${title}`.toLowerCase())
-            }>
+            onClick={(e) => handleRedirect(e, `/movies/${id}`.toLowerCase())}>
             Ver Detalles
           </Button>
         </CardActions>

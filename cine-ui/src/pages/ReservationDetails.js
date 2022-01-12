@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { useParams } from "react-router-dom";
 import { reservationMock } from "../store/actions/reservationActions";
 import Page from "../components/Page";
 import Grid from "@mui/material/Grid";
@@ -35,6 +36,13 @@ const details = {
 };
 
 const ReservationDetails = ({ seatSelectedRedux = [], saveSeats }) => {
+  //con useParams obtengo el id de la reserva que esta en la url
+  const { id } = useParams();
+  //creo estados para la pelicula y para el showtime,
+  //con el id de la reserva consultar la reserva y esa respuesta
+  // obtengo el id del show time y con el id del showtime consulto
+  // el endpoint get seats by showtime
+
   const [seatsRemove, setSeatsRemove] = React.useState([]);
   const handleChange = (e) => {
     const seatsCopy = seatSelectedRedux.slice();

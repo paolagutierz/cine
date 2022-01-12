@@ -2,7 +2,18 @@ const express = require("express");
 const router = express.Router();
 const Movie = require("../models/movie");
 const verifyAdmin = require("../middleware/verifyTokenAdmin");
-const upload = require("../services/multer");
+const multer = require("multer");
+
+/* //set storage engine
+const storage = multer.diskStorage({
+  destination: "./public/uploads/",
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + file.originalname);
+  },
+}); */
+
+//init upload
+const upload = multer({ dest: "uploads/" });
 
 // All movies
 router.get("/", async (req, res) => {
@@ -78,9 +89,10 @@ router.delete("/:id", verifyAdmin, async (req, res) => {
   } catch (err) {
     return res.status(500).json(err);
   }
+});
 
-  //upload image
-  router.post(
+//upload image
+/*router.post(
     "/movie/upload",
     upload("movie").single("file"),
     async (req, res, next) => {
@@ -103,7 +115,11 @@ router.delete("/:id", verifyAdmin, async (req, res) => {
         res.sendStatus(400).send(e);
       }
     }
-  );
+  );*/
+
+router.post("/upload", upload.single("movie"), (req, res) => {
+  console.log(req.body);
+  res.send("done");
 });
 
 module.exports = router;
