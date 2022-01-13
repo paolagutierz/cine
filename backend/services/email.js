@@ -20,8 +20,8 @@ transporter.createMailOptions = (data) => {
   const { to, movie, date, time, cinema, seat } = data;
 
   const htmlContent = `
-                <h1><strong>Invitation For Movie</strong></h1>
-                <p>Hi, You have been invited to: </p>
+                <h1><strong>Boleta para Cine</strong></h1>
+                <p>Hola: </p>
                 <p>Movie name: ${movie}</p>
                 <p>Date: ${date}</p>
                 <p>Time: ${time}</p>
@@ -30,7 +30,7 @@ transporter.createMailOptions = (data) => {
                 <br/>
               `;
   return {
-    from: "geosimos91@gmail.com",
+    from: "admon.cidenetpictures@gmail.com",
     to,
     subject: "Cinema + Invitation",
     html: htmlContent,

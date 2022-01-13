@@ -6,12 +6,11 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
+import { MenuItem, Menu } from "@mui/material";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { useHistory } from "react-router";
-import Typography from "../components/Typography";
+import Modal from "../components/Modal";
 
 const Navbar = ({ logout, user }) => {
   const history = useHistory();
@@ -20,11 +19,6 @@ const Navbar = ({ logout, user }) => {
   const handleRedirect = (e, path) => {
     e.preventDefault();
     history.push(path);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    logout();
   };
 
   return (
@@ -84,10 +78,12 @@ const Navbar = ({ logout, user }) => {
               open={Boolean(isMenuOpen)}
               onClose={() => setIsMenuOpen(false)}>
               {user ? (
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                <MenuItem>
+                  <Modal logout={logout} closeMenu={setIsMenuOpen}></Modal>
+                </MenuItem>
               ) : (
                 <MenuItem onClick={(e) => handleRedirect(e, "/login")}>
-                  Login
+                  Iniciar Sesion
                 </MenuItem>
               )}
             </Menu>

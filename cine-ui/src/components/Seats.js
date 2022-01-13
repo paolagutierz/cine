@@ -50,9 +50,10 @@ const Seats = ({ seatSelected, handleSelectSeat, seatReserved }) => {
                     <IconButton
                       size="large"
                       color={
-                        seatSelected?.includes(seat.letter + number) ||
-                        seatReserved?.includes(seat.letter + number)
+                        seatSelected?.includes(seat.letter + number)
                           ? "error.contrastText"
+                          : seatReserved?.includes(seat.letter + number)
+                          ? "error"
                           : "warning.main"
                       }
                       disabled={true}

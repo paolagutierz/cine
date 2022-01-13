@@ -1,3 +1,4 @@
+//seat availability
 const Reservation = require("../models/reservation");
 const Ticket = require("../models/ticket");
 
