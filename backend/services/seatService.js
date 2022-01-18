@@ -18,7 +18,9 @@ seatService.getReservedSeats = async (movieShowId) => {
         .exec();
 
       tickets.forEach((ticket) => {
-        reservedSeats.push(ticket.seat.number);
+        if (ticket.status == "pending") {
+          reservedSeats.push(ticket.seat.number);
+        }
       });
     })
   );

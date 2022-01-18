@@ -75,6 +75,17 @@ router.put("/reservation/:id", async (req, res) => {
         await ticket.save();
       })
     );
+
+    const tickets = await Ticket.find({ reservation: req.params.id });
+    const cantTicketsPending = tickets.filter((ticket) => {
+      return ticket.status == "pending";
+    }).length;
+
+    if (cantTicketsPending == 0) {
+      const reservation = await Reservation.findById(req.params.id);
+      reservation.status = "canceled";
+      await reservation.save();
+    }
     return res.status(204).send("silla liberada exitosamente");
   } catch (err) {
     return res.status(500).json(err);

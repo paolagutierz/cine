@@ -58,9 +58,7 @@ export default function KeepMountedModal({ logout, closeMenu }) {
             variant="h6"
             component="h6"
             color="#f5f5f5"
-            align="center">
-            Cerraste Sesion Exitosamente
-          </Typography>
+            align="center"></Typography>
         </Box>
       </Modal>
     </div>

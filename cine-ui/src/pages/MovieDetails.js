@@ -17,6 +17,7 @@ const MovieDetails = ({ user }) => {
   const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
 
+  //estados
   const [dateSelected, setDateSelected] = useState("");
   const [timeSelected, setTimeSelected] = useState("");
   const [seatSelected, setSeatSelected] = useState([]);
@@ -28,15 +29,24 @@ const MovieDetails = ({ user }) => {
   const [showTimeSelected, setShowTimeSelected] = useState();
 
   const handleSelectSeat = (row, column) => {
-    if (
-      seatSelected.includes(row + column) ||
-      seatReserved.includes(row + column)
-    ) {
+    if (seatReserved.includes(row + column)) {
       return;
     }
-    setSeatsNumb(seatsNumb + 1);
+
     const seatSelectedCopy = seatSelected;
-    seatSelectedCopy.push(row + column);
+    if (seatSelected.includes(row + column)) {
+      //deseleccionar silla
+      setSeatsNumb(seatsNumb - 1);
+      const index = seatSelectedCopy.indexOf(row + column);
+      if (index > -1) {
+        seatSelectedCopy.splice(index, 1);
+      }
+    } else {
+      //agrega silla
+      setSeatsNumb(seatsNumb + 1);
+      seatSelectedCopy.push(row + column);
+    }
+    //guarda nuevo array de sillas en el estado
     setSeatSelected(seatSelectedCopy);
   };
 
@@ -105,6 +115,8 @@ const MovieDetails = ({ user }) => {
 
     await axios.post(`http://localhost:5000/api/reservation/`, body);
     enqueueSnackbar("Reserva Exitosa", { variant });
+    handleDateSelected("");
+    setSeatSelected([]);
   };
 
   const handleDateSelected = (date) => {

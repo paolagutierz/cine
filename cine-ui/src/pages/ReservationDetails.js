@@ -1,7 +1,6 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useParams } from "react-router-dom";
-import { reservationMock } from "../store/actions/reservationActions";
 import Page from "../components/Page";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -17,7 +16,9 @@ import Checkbox from "@mui/material/Checkbox";
 import MovieDetailCard from "../components/MovieDetailCard";
 import encanto from "../img/promo/encanto2.jpg";
 import DialogLS from "../components/DialogLS";
+import { useSnackbar } from "notistack";
 
+//remover silla
 const removeItem = (array, item) => {
   const index = array.indexOf(item);
   if (index > -1) {
@@ -25,39 +26,72 @@ const removeItem = (array, item) => {
   }
 };
 
-const details = {
-  img: encanto,
-  title: "Encanto",
-  format: "2D",
-  fecha: "12/10/2021",
-  hora: "12:30pm",
-  description:
-    "ENCANTO cuenta la historia de los Madrigal una familia extraordinaria que vive escondida en las montañas de Colombia, en una casa mágica, en un pueblo vibrante, en un lugar maravilloso conocido como un Encanto. La magia de este Encanto ha bendecido a todos los niños y niñas de la familia con un don único, desde súper fuerza hasta el poder de sanar. A todos, excepto a Mirabel. Pero cuando descubre que la magia que rodea al Encanto corre peligro, Mirabel decide que ella, la única Madrigal sin poderes mágicos, podría ser la última esperanza de su excepcional familia.",
-};
+//con useParams obtengo el id de la reserva que esta en la url
+//creo estados para la pelicula y para el showtime,
+//con el id de la reserva consultar la reserva y esa respuesta
+// el endpoint get seats by showtime
 
-const ReservationDetails = ({ seatSelectedRedux = [], saveSeats }) => {
-  //con useParams obtengo el id de la reserva que esta en la url
+const ReservationDetails = () => {
   const { id } = useParams();
-  //creo estados para la pelicula y para el showtime,
-  //con el id de la reserva consultar la reserva y esa respuesta
-  // obtengo el id del show time y con el id del showtime consulto
-  // el endpoint get seats by showtime
+  const { enqueueSnackbar } = useSnackbar();
 
+  const [reservationSelected, setreservationSelected] = useState("");
   const [seatsRemove, setSeatsRemove] = React.useState([]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    const response = await axios.get(
+      `http://localhost:5000/api/reservation/${id}`
+    );
+    const reservation = response.data;
+
+    const ticketResponse = await axios.get(
+      `http://localhost:5000/api/ticket/reservation/${id}`
+    );
+    reservation.seats = ticketResponse.data.map((ticket) => {
+      return ticket.seat.number;
+    });
+    setreservationSelected(reservation);
+    console.log(response.data);
+  };
+
   const handleChange = (e) => {
-    const seatsCopy = seatSelectedRedux.slice();
+    const seatsCopy = seatsRemove.slice();
     console.log(seatsRemove);
     if (e.target.checked) {
+      seatsCopy.push(e.target.value);
+    } else {
       removeItem(seatsCopy, e.target.value);
-    } else seatsCopy.push(e.target.value);
+    }
     setSeatsRemove(seatsCopy);
   };
 
-  const removeSeats = (isCanceling) => {
+  const removeSeats = async (isCanceling) => {
     if (isCanceling) {
-      saveSeats([]);
+      try {
+        //endpoint para cancelar
+        await axios.delete(`http://localhost:5000/api/reservation/${id}`);
+        loadData();
+        enqueueSnackbar("Cancelacion Exitosa", { variant: "success" });
+      } catch (error) {
+        enqueueSnackbar("No se pudo cancelar la reserva", {
+          variant: "error",
+        });
+      }
     } else {
-      saveSeats(seatsRemove);
+      try {
+        await axios.put(`http://localhost:5000/api/seat/reservation/${id}`, {
+          seats: seatsRemove,
+        });
+        loadData();
+        enqueueSnackbar("Liberacion exitosa", { variant: "success" });
+      } catch (error) {
+        enqueueSnackbar("No se pudo liberar la silla ", { variant: "error" });
+      }
     }
   };
 
@@ -72,24 +106,23 @@ const ReservationDetails = ({ seatSelectedRedux = [], saveSeats }) => {
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
               sx={{ mt: 2 }}>
               <MovieDetailCard
-                img={details.img}
-                title={details.title}
-                description={details.description}></MovieDetailCard>
+                img={encanto}
+                title={
+                  reservationSelected?.movieShow?.movie?.title
+                }></MovieDetailCard>
               <Grid item xs={6}>
                 <CardContent>
                   <Card>
                     <Typography
                       gutterBottom
-                      variant="h5"
+                      variant="h4"
                       component="div"
                       sx={{ mt: 4, mx: 4 }}>
-                      {details.title} {details.format}
+                      {reservationSelected?.movieShow?.movie?.title}{" "}
+                      {reservationSelected?.movieShow?.movie?.format}
                     </Typography>
                     <Grid container rowSpacing={2} sx={{ mx: 4 }}>
                       <Grid item xs={8}>
-                        <Typography gutterBottom variant="h5" component="div">
-                          {details.titulo}
-                        </Typography>
                         <Grid
                           item
                           sx={{
@@ -99,13 +132,23 @@ const ReservationDetails = ({ seatSelectedRedux = [], saveSeats }) => {
                             sx={{
                               mt: 3,
                             }}>
-                            Fecha: {details.fecha}
+                            Fecha:{" "}
+                            {
+                              reservationSelected?.movieShow?.startTime?.split(
+                                "T"
+                              )[0]
+                            }
                           </Typography>
                           <Typography
                             sx={{
                               mt: 3,
                             }}>
-                            Hora: {details.hora}
+                            Hora:{" "}
+                            {
+                              reservationSelected?.movieShow?.startTime?.split(
+                                "T"
+                              )[1]
+                            }
                           </Typography>
                         </Grid>
                       </Grid>
@@ -115,7 +158,9 @@ const ReservationDetails = ({ seatSelectedRedux = [], saveSeats }) => {
                             mt: 2,
                           }}>
                           {" "}
-                          Sillas Reservadas:
+                          {reservationSelected?.seats?.length > 0
+                            ? "Sillas:"
+                            : "Reserva Cancelada"}
                         </Typography>
                         <FormGroup
                           sx={{
@@ -123,16 +168,17 @@ const ReservationDetails = ({ seatSelectedRedux = [], saveSeats }) => {
                             flexDirection: "row",
                             mt: 2,
                           }}>
-                          {seatSelectedRedux.map((silla, i) => (
+                          {reservationSelected?.seats?.map((seat, i) => (
                             <FormControlLabel
                               control={
                                 <Checkbox
-                                  value={silla}
+                                  key={seat + i}
+                                  value={seat}
                                   className="chkseats"
                                   onChange={handleChange}
                                 />
                               }
-                              label={silla}
+                              label={seat}
                             />
                           ))}
                         </FormGroup>
@@ -143,14 +189,19 @@ const ReservationDetails = ({ seatSelectedRedux = [], saveSeats }) => {
                           mb: 8,
                         }}>
                         {" "}
-                        <DialogLS
-                          removeSeats={() => removeSeats(false)}
-                          textbtn="Liberar Sillas"
-                          dialogmsg="¿Desea liberar las sillas seleccionadas?"></DialogLS>
-                        <DialogLS
-                          removeSeats={() => removeSeats(true)}
-                          textbtn="Cancelar Reservas"
-                          dialogmsg="¿Desea cancelar la reserva?"></DialogLS>
+                        {reservationSelected?.seats?.length > 0 && (
+                          <>
+                            <DialogLS
+                              removeSeats={() => removeSeats(false)}
+                              textbtn="Liberar Silla"
+                              disabled={seatsRemove.length === 0}
+                              dialogmsg="¿Desea liberar las sillas seleccionadas?"></DialogLS>
+                            <DialogLS
+                              removeSeats={() => removeSeats(true)}
+                              textbtn="Cancelar Reserva"
+                              dialogmsg="¿Desea cancelar la reserva?"></DialogLS>
+                          </>
+                        )}
                       </ButtonGroup>
                     </Grid>
                   </Card>
@@ -163,14 +214,5 @@ const ReservationDetails = ({ seatSelectedRedux = [], saveSeats }) => {
     </Page>
   );
 };
-const mapDispatchToProps = (dispatch) => {
-  return {
-    saveSeats: (seatsSelected) => dispatch(reservationMock(seatsSelected)),
-  };
-};
-const mapStateToProps = (state) => {
-  return {
-    seatSelectedRedux: state.reservationMock.selectedseats,
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(ReservationDetails);
+
+export default ReservationDetails;

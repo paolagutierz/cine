@@ -76,7 +76,10 @@ router.get("/:id", async (req, res) => {
   try {
     const reservation = await Reservation.findById(req.params.id)
       .populate("user")
-      .populate("movieShow")
+      .populate({
+        path: "movieShow",
+        populate: { path: "movie", model: Movie },
+      })
       .exec();
     return res.status(200).json(reservation);
   } catch (err) {
@@ -87,14 +90,25 @@ router.get("/:id", async (req, res) => {
 // Show reservation by user
 router.get("/user/:id", async (req, res) => {
   try {
-    const reservation = await Reservation.find({ user: req.params.id })
+    const reservations = await Reservation.find({ user: req.params.id })
       .populate("user")
       .populate({
         path: "movieShow",
         populate: { path: "movie", model: Movie },
       })
       .exec();
-    return res.status(200).json(reservation);
+
+    //ordenar las reservas para mostrar las reservas "pending" primero en la lista de reservas
+    reservations.sort((a, b) => {
+      if (a.status === "pending" && b.status === "canceled") {
+        return -1;
+      }
+      if (a.status === "canceled" && b.status === "pending") {
+        return 1;
+      }
+      return 0;
+    });
+    return res.status(200).json(reservations);
   } catch (err) {
     return res.status(500).json(err);
   }

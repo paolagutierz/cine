@@ -43,7 +43,7 @@ const ReservationLists = ({ user }) => {
     history.push(`/verreserva/${id}`);
   };
   const { data } = {
-    dataSet: "Commodity",
+    dataSet: "sillas",
     rowLength: 7,
     maxColumns: 5,
   };
@@ -73,8 +73,16 @@ const ReservationLists = ({ user }) => {
                   reservations?.filter((item) => item.id === id)[0]?.status ===
                   "pending";
 
-                if (!isCancelable) {
-                  return [];
+                const isCanceled =
+                  reservations?.filter((item) => item.id === id)[0]?.sillas
+                    .length === 0;
+
+                if (!isCancelable || isCanceled) {
+                  return [
+                    <Button variant="text" disabled>
+                      Reserva Cancelada
+                    </Button>,
+                  ];
                 }
 
                 return [
