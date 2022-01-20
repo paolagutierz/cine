@@ -6,11 +6,6 @@ import { Container, Button } from "@mui/material";
 import { DataGridPro } from "@mui/x-data-grid-pro";
 import { useHistory } from "react-router";
 
-//crear estado de reservations
-//conectar con redux y obtener id de usuario
-//componentdidmount llamar al endpoint de all reservas por user
-//luego hago el setReservations
-
 const ReservationLists = ({ user }) => {
   const history = useHistory();
   const [reservations, setReservations] = useState([]);

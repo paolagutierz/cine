@@ -26,11 +26,6 @@ const removeItem = (array, item) => {
   }
 };
 
-//con useParams obtengo el id de la reserva que esta en la url
-//creo estados para la pelicula y para el showtime,
-//con el id de la reserva consultar la reserva y esa respuesta
-// el endpoint get seats by showtime
-
 const ReservationDetails = () => {
   const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
@@ -59,6 +54,7 @@ const ReservationDetails = () => {
     console.log(response.data);
   };
 
+  //remover sillas
   const handleChange = (e) => {
     const seatsCopy = seatsRemove.slice();
     console.log(seatsRemove);
