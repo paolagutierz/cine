@@ -8,6 +8,17 @@ const MovieSchema = new mongoose.Schema({
   genre: {
     type: String,
     required: true,
+    enum: [
+      "Acción",
+      "Aventura",
+      "Ciencia Ficción",
+      "Fantasía",
+      "Terror",
+      "Drama",
+      "Supenso",
+      "Comedia",
+      "Animacion",
+    ],
   },
   description: {
     type: String,
@@ -20,7 +31,6 @@ const MovieSchema = new mongoose.Schema({
     type: String,
     enum: ["2D", "3D"],
     required: true,
-    default: "2D",
   },
   duration: {
     type: String,

@@ -113,22 +113,16 @@ const MovieDetails = ({ user }) => {
       seats: seatSelected,
     };
 
-    const ticket = await axios.post(
+    const tickets = await axios.post(
       `http://localhost:5000/api/reservation/`,
       body
     );
     //enviar reserva al correo
-    const invitations = ticket.map((ticket) => {
-      return {
-        to: user.email,
-        movie: ticket.reservation.showtime.movie.title,
-        date: ticket.reservation.showtime.startTime.split("T")[0],
-        time: ticket.reservation.showtime.startTime.split("T")[1],
-        cinema: ticket.reservation.showtime.cinema.number,
-        seat: ticket.seat.number,
-      };
-    });
-    await axios.post(`/invitations`, invitations);
+    const invitations = tickets.data;
+    await axios.post(
+      `http://localhost:5000/api/email/invitations`,
+      invitations
+    );
     enqueueSnackbar("Reserva Exitosa", { variant });
     handleDateSelected("");
     setSeatSelected([]);

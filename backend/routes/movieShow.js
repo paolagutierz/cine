@@ -4,6 +4,7 @@ const moment = require("moment-timezone");
 moment().tz("America/Bogota").format();
 const MovieShow = require("../models/movieShow");
 const verifyAdmin = require("../middleware/verifyTokenAdmin");
+const Cinema = require("../models/cinema");
 
 // All movie shows
 router.get("/", async (req, res) => {
@@ -18,9 +19,10 @@ router.get("/", async (req, res) => {
 
 // Create Movie Show
 router.post("/", async (req, res) => {
+  const cinema = await Cinema.findOne({ number: req.body.cinemaNumber });
   const movieShow = new MovieShow({
     movie: req.body.movie,
-    cinema: req.body.cinema,
+    cinema: cinema._id,
     startTime: moment(req.body.startTime).format("YYYY-MM-DDTHH:mm"),
     endTime: moment(req.body.endTime).format("YYYY-MM-DDTHH:mm"),
   });
@@ -48,10 +50,11 @@ router.get("/movie/:id", async (req, res) => {
 
 // Update movie show
 router.put("/:id", async (req, res) => {
+  const cinema = await Cinema.findOne({ number: req.body.cinemaNumber });
   let movieShow;
   try {
     movieShow = await MovieShow.findById(req.params.id);
-    movieShow.cinema = req.body.cinema;
+    movieShow.cinema = cinema._id;
     movieShow.movie = req.body.movie;
     movieShow.startTime = req.body.startTime;
     movieShow.endTime = req.body.endTime;

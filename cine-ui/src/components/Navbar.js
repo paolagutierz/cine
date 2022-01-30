@@ -45,7 +45,11 @@ const Navbar = ({ logout, user }) => {
               Cartelera
             </Button>
             {user?.isAdmin && (
-              <Button color="inherit">Administrar Cartelera</Button>
+              <Button
+                color="inherit"
+                onClick={(e) => handleRedirect(e, "/administrador")}>
+                Administrar Cartelera
+              </Button>
             )}
             {user && (
               <Button

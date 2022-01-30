@@ -24,9 +24,9 @@ const ReservationLists = ({ user }) => {
         reservation.sillas = tickets.data.map((ticket) => ticket.seat.number);
         reservation.cantidad = reservation.sillas.length;
         reservation.id = reservation._id;
-        reservation.pelicula = reservation.movieShow.movie?.title;
-        reservation.fecha = reservation.movieShow.startTime.split("T")[0];
-        reservation.hora = reservation.movieShow.startTime.split("T")[1];
+        reservation.pelicula = reservation.movieShow?.movie?.title;
+        reservation.fecha = reservation.movieShow?.startTime.split("T")[0];
+        reservation.hora = reservation.movieShow?.startTime.split("T")[1];
       })
     );
     setReservations(response.data);

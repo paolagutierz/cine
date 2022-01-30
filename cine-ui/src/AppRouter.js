@@ -6,6 +6,7 @@ import ReservationDetails from "./pages/ReservationDetails";
 import MovieListings from "./pages/MovieListings";
 import MovieDetails from "./pages/MovieDetails";
 import Page from "./components/Page";
+import AdminPanel from "./pages/AdminPanel";
 
 import { connect } from "react-redux";
 import {
@@ -30,6 +31,11 @@ const AppRouter = ({ user }) => {
         <Route path="/movies/:id">
           <MovieDetails />
         </Route>
+        {user?.isAdmin && (
+          <Route path="/administrador">
+            <AdminPanel user={user} />
+          </Route>
+        )}
 
         <Route path="/signup">{!user ? <SignUp /> : <Redirect to="/" />}</Route>
         <Route path="/login">{!user ? <Login /> : <Redirect to="/" />}</Route>
