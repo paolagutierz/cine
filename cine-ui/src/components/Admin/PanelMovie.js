@@ -7,6 +7,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import Stack from "@mui/material/Stack";
+import Input from "@mui/material/Input";
+
 import {
   useGridApiRef,
   DataGridPro,
@@ -134,7 +139,7 @@ const PanelMovie = ({ user }) => {
 
   const handleDeleteClick = (id) => async (event) => {
     event.stopPropagation();
-    debugger;
+
     const movieId = rows.filter((movie) => movie.id === id)[0]?._id;
     if (movieId) {
       try {
@@ -168,6 +173,39 @@ const PanelMovie = ({ user }) => {
       apiRef.current.updateRows([{ id, _action: "delete" }]);
     }
   };
+  const handleUploadPoster = (id) => (event) => {
+    try {
+      let image = event.target.files[0];
+      const formData = new FormData();
+      formData.append("movie", image);
+      formData.append("movieId", id);
+
+      for (var values of formData.values()) {
+        console.log(values);
+      }
+      axios({
+        method: "post",
+        url: "http://localhost:5000/api/movies/upload/",
+        data: formData,
+        headers: {
+          "x-auth-token": user.accessToken,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      enqueueSnackbar("Imagen subida correctamente", {
+        variant: "success",
+      });
+      console.log("se llamo el servicio de carga de imagen   ");
+    } catch (error) {
+      enqueueSnackbar("No se pudo cargar la imagen", {
+        variant: "error",
+      });
+    }
+  };
+
+  //cambiar el modelo de la base de datos add campo que se llame urlimg
+  //cuando se suba la img obtener la url y actualizar campo urlimg de la pelicula
+  //para que en la cartelera se vean las img guardadas
 
   const columns = [
     { field: "title", headerName: "Titulo", width: 180, editable: true },
@@ -211,10 +249,37 @@ const PanelMovie = ({ user }) => {
     },
     {
       field: "Upload",
-      type: "actions",
       headerName: "Poster",
       width: 200,
+      type: "actions",
       cellClassName: "actions",
+      getActions: ({ id }) => {
+        const isInEditMode = apiRef.current.getRowMode(id) === "edit";
+        if (isInEditMode) {
+          console.log("estado boton: " + isInEditMode);
+          return [
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <label for="imageUpload">{<FileUploadIcon />}</label>
+              <Input
+                style={{ display: "none" }}
+                accept="image/*"
+                id="imageUpload"
+                type="file"
+                onChange={handleUploadPoster(id)}
+              />
+            </Stack>,
+          ];
+        } else {
+          return [
+            <GridActionsCellItem
+              icon={<PhotoCamera />}
+              label="image"
+              className="textPrimary"
+              color="inherit"
+            />,
+          ];
+        }
+      },
     },
     {
       field: "actions",
