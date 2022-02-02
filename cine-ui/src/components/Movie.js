@@ -1,12 +1,11 @@
 import React from "react";
 import Carousel from "react-material-ui-carousel";
 import Box from "@mui/material/Box";
-import img1 from "../img/encanto.png";
 import img2 from "../img/ghostbusters.jpg";
 import img3 from "../img/spiderman.png";
 
 const Movie = () => {
-  const images = [img1, img2, img3];
+  const images = [img2, img3];
   return (
     <Carousel>
       {images.map((img, i) => (

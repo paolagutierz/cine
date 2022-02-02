@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { Card, CardContent, Container } from "@mui/material";
 import { useSnackbar } from "notistack";
-import encanto from "../img/promo/encanto2.jpg";
+import thematrix from "../img/promo/thematrix.jpg";
 import MovieDetailCard from "../components/MovieDetailCard";
 import { useParams } from "react-router-dom";
 
@@ -146,7 +146,7 @@ const MovieDetails = ({ user }) => {
                 columnSpacing={{ xs: 1, sm: 2, md: 3 }}
                 sx={{ mt: 4 }}>
                 <MovieDetailCard
-                  img={encanto}
+                  img={thematrix}
                   title={movie.title}
                   description={movie.description}></MovieDetailCard>
                 <Grid item xs={8}>

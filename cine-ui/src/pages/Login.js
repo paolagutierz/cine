@@ -8,7 +8,7 @@ import {
 import { signUpNotificationDisplayed } from "../store/actions/signUpActions";
 import axios from "axios";
 import { connect } from "react-redux";
-import bgcine from "../img/bgcine.jpeg";
+import bgcine from "../img/bgcine.jpg";
 //materialUI
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";

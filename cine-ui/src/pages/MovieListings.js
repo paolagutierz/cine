@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import encanto from "../img/promo/encanto2.jpg";
-import venom from "../img/promo/venom.png";
+import matrix from "../img/promo/matrix.jpg";
+import thematrix from "../img/promo/thematrix.jpg";
 import Grid from "@mui/material/Grid";
 import MovieListing from "../components/MovieListing";
 import { Container } from "@mui/material";
@@ -22,7 +22,7 @@ const MovieListings = () => {
         {listings.map((listing, i) => (
           <MovieListing
             key={i}
-            img={i % 2 ? encanto : venom}
+            img={i % 2 ? matrix : thematrix}
             title={listing.title}
             format={listing.format}
             description={listing.description}

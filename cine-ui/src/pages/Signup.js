@@ -7,7 +7,7 @@ import {
 import axios from "axios";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import bgcine from "../img/bgcine.jpeg";
+import bgcine from "../img/bgcine.jpg";
 //materialUI
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";

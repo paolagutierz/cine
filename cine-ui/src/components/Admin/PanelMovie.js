@@ -210,10 +210,11 @@ const PanelMovie = ({ user }) => {
       editable: true,
     },
     {
-      field: "image",
+      field: "Upload",
+      type: "actions",
       headerName: "Poster",
-      width: 150,
-      editable: true,
+      width: 200,
+      cellClassName: "actions",
     },
     {
       field: "actions",
