@@ -188,12 +188,12 @@ const ReservationDetails = () => {
                         {reservationSelected?.seats?.length > 0 && (
                           <>
                             <DialogLS
-                              removeSeats={() => removeSeats(false)}
+                              callbackOnYes={() => removeSeats(false)}
                               textbtn="Liberar Silla"
                               disabled={seatsRemove.length === 0}
                               dialogmsg="¿Desea liberar las sillas seleccionadas?"></DialogLS>
                             <DialogLS
-                              removeSeats={() => removeSeats(true)}
+                              callbackOnYes={() => removeSeats(true)}
                               textbtn="Cancelar Reserva"
                               dialogmsg="¿Desea cancelar la reserva?"></DialogLS>
                           </>

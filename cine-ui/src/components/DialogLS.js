@@ -10,7 +10,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function DialogLS({ textbtn, dialogmsg, removeSeats, disabled }) {
+function DialogLS({ textbtn, dialogmsg, callbackOnYes, disabled }) {
   console.log(disabled);
   const [open, setOpen] = React.useState(false);
 
@@ -20,7 +20,7 @@ function DialogLS({ textbtn, dialogmsg, removeSeats, disabled }) {
 
   const handleCloseYes = () => {
     setOpen(false);
-    removeSeats();
+    callbackOnYes();
   };
 
   const handleCloseNo = () => {

@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { useHistory } from "react-router";
 
-const MovieListing = ({ img, title, format, description, id }) => {
+const MovieListing = ({ image, title, format, description, id }) => {
   const history = useHistory();
   const handleRedirect = (e, path) => {
     e.preventDefault();
@@ -29,7 +29,7 @@ const MovieListing = ({ img, title, format, description, id }) => {
           sx={{ maxWidth: 250 }}
           component="img"
           height="auto"
-          image={img}
+          image={image}
           alt={title}
         />
         <CardContent>

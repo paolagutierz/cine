@@ -1,8 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
 import { useHistory } from "react-router";
-import { connect } from "react-redux";
-import { logoutAction } from "../store/actions/loginActions";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
@@ -58,7 +56,9 @@ export default function KeepMountedModal({ logout, closeMenu }) {
             variant="h6"
             component="h6"
             color="#f5f5f5"
-            align="center"></Typography>
+            align="center">
+            Cerraste sesión de forma exitosa
+          </Typography>
         </Box>
       </Modal>
     </div>

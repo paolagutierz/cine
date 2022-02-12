@@ -76,17 +76,23 @@ const Signup = ({
         input: "documentNumb",
       });
       return false;
+    } else if (!validateDocument()) {
+      return false;
     } else if (firstname === "") {
       setError({
         text: "Ingresa tu nombre",
         input: "firstname",
       });
+    } else if (!validateNameLastName()) {
+      return false;
       return false;
     } else if (lastname === "") {
       setError({
         text: "Ingresa tu apellido",
         input: "lastname",
       });
+      return false;
+    } else if (!validateNameLastName()) {
       return false;
     } else if (email === "") {
       setError({
@@ -116,6 +122,17 @@ const Signup = ({
     }
   };
 
+  const validateNameLastName = () => {
+    const pattern = /^[A-Z][a-z]{1,15}$/;
+    if (!pattern.test(firstname, lastname)) {
+      setError({
+        text: "Ingresa solo letras",
+        input: "firstname",
+      });
+      return false;
+    }
+  };
+
   const validatePassword = () => {
     const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{5,}$/;
     if (!pattern.test(password)) {
@@ -142,6 +159,19 @@ const Signup = ({
       return true;
     } else {
       setError({ text: "Ingresa un email valido", input: "email" });
+      return false;
+    }
+  };
+
+  const validateDocument = () => {
+    const pattern = /^((\d{8})|(\d{10})|(\d{11})|(\d{6}-\d{5}))?$/;
+    if (pattern.test(documentNumb)) {
+      return true;
+    } else {
+      setError({
+        text: "Ingresa un numero de documento valido",
+        input: "documentNumb",
+      });
       return false;
     }
   };

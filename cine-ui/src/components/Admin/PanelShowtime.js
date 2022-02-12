@@ -55,7 +55,7 @@ const PanelShowtime = ({ user, movies, cinemas }) => {
   }, []);
 
   const loadData = async () => {
-    const response = await axios.get("http://localhost:5000/api/movieShow?id=");
+    const response = await axios.get(`http://localhost:5000/api/movieShow`);
     const movieShows = response.data.map((movieShow, i) => {
       return {
         id: i + 1,

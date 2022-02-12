@@ -11,6 +11,12 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Stack from "@mui/material/Stack";
 import Input from "@mui/material/Input";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+
+import Slide from "@mui/material/Slide";
 
 import {
   useGridApiRef,
@@ -52,6 +58,8 @@ const PanelMovie = ({ user }) => {
 
   //defino el estado para las filas
   const [rows, setRows] = useState([]);
+  const [idtoDelete, setIdtoDelete] = useState();
+  const [open, setOpen] = React.useState(false);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
@@ -98,7 +106,6 @@ const PanelMovie = ({ user }) => {
         format: newRow.format.value,
         description: newRow.description.value,
         duration: newRow.duration.value,
-        image: newRow.image.value,
       };
 
       //validar si es guardado o editado
@@ -137,8 +144,8 @@ const PanelMovie = ({ user }) => {
     }
   };
 
-  const handleDeleteClick = (id) => async (event) => {
-    event.stopPropagation();
+  const handleDeleteClick = async (id) => {
+    console.log("first");
 
     const movieId = rows.filter((movie) => movie.id === id)[0]?._id;
     if (movieId) {
@@ -173,14 +180,24 @@ const PanelMovie = ({ user }) => {
       apiRef.current.updateRows([{ id, _action: "delete" }]);
     }
   };
+
   const handleUploadPoster = (id) => (event) => {
+    const movieId = rows.filter((movie) => movie.id === id)[0]?._id;
+
+    if (!movieId) {
+      enqueueSnackbar("No se pudo cargar la imagen", {
+        variant: "error",
+      });
+      return;
+    }
+
     try {
       let image = event.target.files[0];
       const formData = new FormData();
       formData.append("movie", image);
-      formData.append("movieId", id);
+      formData.append("movieId", movieId);
 
-      for (var values of formData.values()) {
+      for (let values of formData.values()) {
         console.log(values);
       }
       axios({
@@ -203,9 +220,23 @@ const PanelMovie = ({ user }) => {
     }
   };
 
-  //cambiar el modelo de la base de datos add campo que se llame urlimg
-  //cuando se suba la img obtener la url y actualizar campo urlimg de la pelicula
-  //para que en la cartelera se vean las img guardadas
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
+
+  const handleClickOpen = (id) => {
+    setOpen(true);
+    setIdtoDelete(id);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleCloseYes = async () => {
+    await handleDeleteClick(idtoDelete);
+    setOpen(false);
+  };
 
   const columns = [
     { field: "title", headerName: "Titulo", width: 180, editable: true },
@@ -214,7 +245,7 @@ const PanelMovie = ({ user }) => {
       type: "singleSelect",
       headerName: "Formato",
       editable: true,
-      width: 100,
+      width: 90,
       valueOptions: ["2D", "3D"],
     },
     {
@@ -244,9 +275,16 @@ const PanelMovie = ({ user }) => {
     {
       field: "duration",
       headerName: "Duracion",
-      width: 100,
+      width: 90,
       editable: true,
     },
+    {
+      field: "image",
+      headerName: "Imagen",
+      width: 200,
+      editable: false,
+    },
+
     {
       field: "Upload",
       headerName: "Poster",
@@ -319,7 +357,7 @@ const PanelMovie = ({ user }) => {
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
-            onClick={handleDeleteClick(id)}
+            onClick={() => handleClickOpen(id)}
             color="inherit"
           />,
         ];
@@ -354,6 +392,23 @@ const PanelMovie = ({ user }) => {
           toolbar: { apiRef },
         }}
       />
+      {open && (
+        <Dialog
+          open={open}
+          TransitionComponent={Transition}
+          onClose={handleClose}
+          aria-describedby="alert-dialog-slide-description">
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {"Deseas eliminar la pelicula"}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseYes}>Si</Button>
+            <Button onClick={handleClose}>No</Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </Box>
   );
 };

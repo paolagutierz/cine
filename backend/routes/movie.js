@@ -44,7 +44,7 @@ router.post("/", verifyAdmin, async (req, res) => {
 
 //upload image
 
-router.post("/upload", fileUpload.single("movie"), function (req, res, next) {
+router.post("/upload/", fileUpload.single("movie"), function (req, res, next) {
   let streamUpload = (req) => {
     return new Promise((resolve, reject) => {
       let stream = cloudinary.uploader.upload_stream((error, result) => {
@@ -61,6 +61,14 @@ router.post("/upload", fileUpload.single("movie"), function (req, res, next) {
 
   async function upload(req) {
     let result = await streamUpload(req);
+    const movie = await Movie.findById(req.body.movieId);
+    movie.image = result.url;
+    try {
+      await movie.save();
+      return res.status(200).json(movie);
+    } catch (err) {
+      return res.status(500).json(err);
+    }
     console.log(result);
   }
 
@@ -86,7 +94,6 @@ router.put("/:id", verifyAdmin, async (req, res) => {
     movie.title = req.body.title;
     movie.genre = req.body.genre;
     movie.description = req.body.description;
-    movie.image = req.body.image;
     movie.format = req.body.format;
     movie.duration = req.body.duration;
     if (req.body.cover != null && req.body.cover !== "") {
