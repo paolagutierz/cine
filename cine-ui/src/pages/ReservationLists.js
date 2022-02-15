@@ -53,15 +53,15 @@ const ReservationLists = ({ user }) => {
           pagination
           {...data}
           columns={[
-            { field: "pelicula" },
-            { field: "fecha" },
-            { field: "hora" },
-            { field: "sillas" },
-            { field: "cantidad" },
+            { field: "pelicula", width: 300 },
+            { field: "fecha", width: 100 },
+            { field: "hora", width: 100 },
+            { field: "sillas", width: 100 },
+            { field: "cantidad", width: 100 },
             {
               field: "actions",
               type: "actions",
-              width: 300,
+              width: 200,
               cellClassName: "actions",
               getActions: ({ id }) => {
                 const isCancelable =
