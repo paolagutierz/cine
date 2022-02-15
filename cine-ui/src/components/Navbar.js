@@ -86,13 +86,15 @@ const Navbar = ({ logout, user }) => {
                   <Modal logout={logout} closeMenu={setIsMenuOpen}></Modal>
                 </MenuItem>
               ) : (
-                <MenuItem onClick={(e) => handleRedirect(e, "/login")}>
-                  Ingresar
-                </MenuItem>
+                <>
+                  <MenuItem onClick={(e) => handleRedirect(e, "/login")}>
+                    Ingresar
+                  </MenuItem>
+                  <MenuItem onClick={(e) => handleRedirect(e, "/signup")}>
+                    Registrarse
+                  </MenuItem>
+                </>
               )}
-              <MenuItem onClick={(e) => handleRedirect(e, "/signup")}>
-                Registrarse
-              </MenuItem>
             </Menu>
           </nav>
         </Toolbar>

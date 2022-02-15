@@ -83,16 +83,14 @@ const Signup = ({
         text: "Ingresa tu nombre",
         input: "firstname",
       });
-    } else if (!validateNameLastName()) {
-      return false;
+    } else if (!validateFirtsName()) {
       return false;
     } else if (lastname === "") {
       setError({
         text: "Ingresa tu apellido",
         input: "lastname",
       });
-      return false;
-    } else if (!validateNameLastName()) {
+    } else if (!validateLastName()) {
       return false;
     } else if (email === "") {
       setError({
@@ -122,12 +120,26 @@ const Signup = ({
     }
   };
 
-  const validateNameLastName = () => {
-    const pattern = /^[A-Z][a-z]{1,15}$/;
-    if (!pattern.test(firstname, lastname)) {
+  const validateFirtsName = () => {
+    const pattern = /^[A-Za-z]+$/;
+    if (pattern.test(firstname)) {
+      return true;
+    } else {
       setError({
         text: "Ingresa solo letras",
         input: "firstname",
+      });
+      return false;
+    }
+  };
+  const validateLastName = () => {
+    const pattern = /^[A-Za-z]+$/;
+    if (pattern.test(lastname)) {
+      return true;
+    } else {
+      setError({
+        text: "Ingresa solo letras",
+        input: "lastname",
       });
       return false;
     }
@@ -227,7 +239,6 @@ const Signup = ({
                     value={documentType}>
                     <MenuItem value="1">Cedula</MenuItem>
                     <MenuItem value="2">Tarjeta de identidad</MenuItem>
-                    <MenuItem value="3">NIT</MenuItem>
                   </Select>
                 </Grid>
                 <Grid item xs={12}>
