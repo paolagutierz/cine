@@ -14,7 +14,6 @@ import {
 } from "@mui/material/";
 import Checkbox from "@mui/material/Checkbox";
 import MovieDetailCard from "../components/MovieDetailCard";
-import thematrix from "../img/promo/thematrix.jpg";
 import DialogLS from "../components/DialogLS";
 import { useSnackbar } from "notistack";
 
@@ -102,7 +101,7 @@ const ReservationDetails = () => {
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
               sx={{ mt: 2 }}>
               <MovieDetailCard
-                img={thematrix}
+                image={reservationSelected?.movieShow?.movie?.image}
                 title={
                   reservationSelected?.movieShow?.movie?.title
                 }></MovieDetailCard>
