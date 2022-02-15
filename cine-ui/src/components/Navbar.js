@@ -87,9 +87,12 @@ const Navbar = ({ logout, user }) => {
                 </MenuItem>
               ) : (
                 <MenuItem onClick={(e) => handleRedirect(e, "/login")}>
-                  Iniciar Sesion
+                  Ingresar
                 </MenuItem>
               )}
+              <MenuItem onClick={(e) => handleRedirect(e, "/signup")}>
+                Registrarse
+              </MenuItem>
             </Menu>
           </nav>
         </Toolbar>
