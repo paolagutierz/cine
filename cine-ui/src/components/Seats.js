@@ -19,7 +19,7 @@ const Seats = ({ seatSelected, handleSelectSeat, seatReserved }) => {
       fixed
       sx={{
         my: 6,
-        mx: 4,
+        mx: 5,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -42,7 +42,9 @@ const Seats = ({ seatSelected, handleSelectSeat, seatReserved }) => {
               textAlign: "center",
             }}>
             {" "}
-            <Typography color="secondary.contrastText">Pantalla</Typography>
+            <Typography variant="h6" color="secondary.contrastText">
+              Pantalla
+            </Typography>
             <Grid container rowSpacing={2} sx={{ mt: 2 }}>
               {seats.map((seat, i) =>
                 seat.numbers.map((number, i) => (
@@ -53,8 +55,8 @@ const Seats = ({ seatSelected, handleSelectSeat, seatReserved }) => {
                         seatSelected?.includes(seat.letter + number)
                           ? "error.contrastText"
                           : seatReserved?.includes(seat.letter + number)
-                          ? "error"
-                          : "warning.main"
+                          ? "warning.main"
+                          : "error.main"
                       }
                       disabled={true}
                       onClick={() => handleSelectSeat(seat.letter, number)}>

@@ -31,7 +31,7 @@ function DialogLS({ textbtn, dialogmsg, callbackOnYes, disabled }) {
     <div>
       <Button
         sx={{
-          mr: 2,
+          mr: 3,
         }}
         variant="contained"
         onClick={handleClickOpen}

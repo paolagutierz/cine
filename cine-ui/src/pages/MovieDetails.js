@@ -152,13 +152,13 @@ const MovieDetails = ({ user }) => {
                   title={movie.title}
                   description={movie.description}></MovieDetailCard>
                 <Grid item xs={8}>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom variant="h4" component="div">
                     {movie.title} {movie.format}
                   </Typography>
 
                   <Grid container rowSpacing={2} sx={{ mt: 2 }}>
                     <Grid item xs={4}>
-                      <Typography>Fechas Disponibles:</Typography>
+                      <Typography variant="h6">Fechas Disponibles:</Typography>
                     </Grid>
 
                     <Grid item xs={8}>
@@ -181,7 +181,7 @@ const MovieDetails = ({ user }) => {
                     {dateSelected !== "" && (
                       <>
                         <Grid item xs={4}>
-                          <Typography>Horas:</Typography>
+                          <Typography variant="h6">Horas:</Typography>
                         </Grid>
                         <Grid item xs={8}>
                           <ButtonGroup
@@ -218,18 +218,19 @@ const MovieDetails = ({ user }) => {
                     )}
 
                     {seatsNumb > 0 && (
-                      <Grid item xs={12}>
+                      <Grid item xs={12} sx={{}}>
                         <Card>
                           <CardContent
                             sx={{
                               display: "flex",
-                              justifyContent: "space-between",
-                              backgroundColor: "primary.dark",
+                              justifyContent: "space-evenly",
+                              backgroundColor: "error.main",
+                              alignItems: "center",
                             }}>
-                            <Typography color="secondary.contrastText">
+                            <Typography variant="h5" color="error.contrastText">
                               Numero de Sillas:{seatsNumb}
                             </Typography>
-                            <Typography color="secondary.contrastText">
+                            <Typography variant="h5" color="error.contrastText">
                               Total:${seatsNumb * 20000}
                             </Typography>
                             {

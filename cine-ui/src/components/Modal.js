@@ -5,19 +5,18 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import MenuItem from "@mui/material/MenuItem";
 
 const style = {
   position: "absolute",
   top: "60%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 500,
-  bgcolor: "#b2102f",
+  width: 400,
+  bgcolor: "#f5f5f5",
   opacity: 0.9,
   boxShadow: 29,
-  border: "2px solid #b2102f",
-  p: 8,
+  border: "2px solid #f5f5f5",
+  p: 9,
 };
 
 export default function KeepMountedModal({ logout, closeMenu }) {
@@ -49,15 +48,15 @@ export default function KeepMountedModal({ logout, closeMenu }) {
         keepMounted
         open={open}
         onClose
-        aria-labelledby="keep-mounted-modal-description">
+        aria-labelledby="keep-mounted-modal-title">
         <Box sx={style}>
           <Typography
-            id="keep-mounted-modal-description"
-            variant="h6"
-            component="h6"
-            color="#f5f5f5"
+            id="keep-mounted-modal-title"
+            variant="h5"
+            component="h2"
+            color="#212121"
             align="center">
-            Cerraste sesión de forma exitosa
+            Cerraste sesión exitosamente.
           </Typography>
         </Box>
       </Modal>
