@@ -293,30 +293,35 @@ const PanelMovie = ({ user }) => {
       cellClassName: "actions",
       getActions: ({ id }) => {
         const isInEditMode = apiRef.current.getRowMode(id) === "edit";
-        if (isInEditMode) {
-          console.log("estado boton: " + isInEditMode);
-          return [
-            <Stack direction="row" alignItems="center" spacing={2}>
-              <label for="imageUpload">{<FileUploadIcon />}</label>
-              <Input
-                style={{ display: "none" }}
-                accept="image/*"
-                id="imageUpload"
-                type="file"
-                onChange={handleUploadPoster(id)}
-              />
-            </Stack>,
-          ];
-        } else {
-          return [
-            <GridActionsCellItem
-              icon={<PhotoCamera />}
-              label="image"
-              className="textPrimary"
-              color="inherit"
-            />,
-          ];
+        const movies = rows.filter((movie) => movie.id === id);
+        const movieId = movies.length > 0 ? movies[0]?.id : null;
+        if (movieId) {
+          if (isInEditMode) {
+            console.log("estado boton: " + isInEditMode);
+            return [
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <label for="imageUpload">{<FileUploadIcon />}</label>
+                <Input
+                  style={{ display: "none" }}
+                  accept="image/*"
+                  id="imageUpload"
+                  type="file"
+                  onChange={handleUploadPoster(id)}
+                />
+              </Stack>,
+            ];
+          } else {
+            return [
+              <GridActionsCellItem
+                icon={<PhotoCamera />}
+                label="image"
+                className="textPrimary"
+                color="inherit"
+              />,
+            ];
+          }
         }
+        return [];
       },
     },
     {

@@ -13,8 +13,6 @@ import MovieDetailCard from "../components/MovieDetailCard";
 import { useParams } from "react-router-dom";
 import DialogLS from "../components/DialogLS";
 
-import Slide from "@mui/material/Slide";
-
 const MovieDetails = ({ user }) => {
   const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
@@ -233,14 +231,23 @@ const MovieDetails = ({ user }) => {
                             <Typography variant="h5" color="error.contrastText">
                               Total:${seatsNumb * 20000}
                             </Typography>
-                            {
+                            {user ? (
                               <DialogLS
                                 callbackOnYes={() =>
                                   handleReservation("success")
                                 }
                                 textbtn="Reservar"
                                 dialogmsg="¿Estas seguro de realizar la reserva?"></DialogLS>
-                            }
+                            ) : (
+                              <>
+                                <Button
+                                  color="primary"
+                                  variant="contained"
+                                  onClick={(e) => handleReservation("success")}>
+                                  Reservar
+                                </Button>
+                              </>
+                            )}
                           </CardContent>
                         </Card>
                       </Grid>
