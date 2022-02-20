@@ -23,10 +23,10 @@ const MovieListing = ({ image, title, format, description, id }) => {
           flexDirection: "column",
           p: 1,
           m: 1,
-          maxWidth: 280,
+          maxWidth: 800,
         }}>
         <CardMedia
-          sx={{ maxWidth: 250 }}
+          sx={{ maxWidth: 600 }}
           component="img"
           height="auto"
           image={image}
