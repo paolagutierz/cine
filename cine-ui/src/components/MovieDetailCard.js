@@ -8,8 +8,8 @@ import Typography from "@mui/material/Typography";
 const MovieDetailCard = ({ image, title, description }) => {
   return (
     <Grid item xs={4}>
-      <Card sx={{ maxWidth: 500 }}>
-        <CardMedia component="img" height="400" image={image} alt={title} />
+      <Card sx={{ maxWidth: 800 }}>
+        <CardMedia component="img" height="500" image={image} alt={title} />
         <CardContent>
           <Typography variant="body2" color="text.secondary">
             {description}
