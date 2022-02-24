@@ -26,6 +26,7 @@ function AdminPanel({ user }) {
       return {
         id: movieObj._id,
         title: movieObj.title,
+        duration: movieObj.duration,
       };
     });
     setMovies(movies);

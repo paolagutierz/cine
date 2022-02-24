@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import moment from "moment";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
@@ -14,6 +15,8 @@ import {
   GridActionsCellItem,
 } from "@mui/x-data-grid-pro";
 import { useSnackbar } from "notistack";
+
+//moment().tz("America/Bogota").format();
 
 function EditToolbar(props) {
   const { apiRef } = props;
@@ -92,17 +95,22 @@ const PanelShowtime = ({ user, movies, cinemas }) => {
       const model = apiRef.current.getEditRowsModel();
       const newRow = model[id];
 
-      const movieId = movies.filter(
+      const { duration, id: movieId } = movies.filter(
         (movie) => movie.title === newRow.movie.value
-      )[0].id;
+      )[0];
+
+      const endTimeDateString = moment(newRow.startTime.value)
+        .add(parseInt(duration, 10), "minutes")
+        .format("YYYY-MM-DDTHH:mm");
 
       const movieShow = {
         movie: movieId,
         cinemaNumber: newRow.cinemaNumber.value,
-        startTime: newRow.startTime.value,
-        endTime: newRow.endTime.value,
+        startTime: moment(newRow.startTime.value).format("YYYY-MM-DDTHH:mm"),
+        endTime: endTimeDateString,
       };
 
+      console.log(newRow.startTime.value);
       //validar si es guardado o editado
       const movieShowId = rows.filter((movieShow) => movieShow.id === id)[0]
         ?._id;
@@ -209,7 +217,7 @@ const PanelShowtime = ({ user, movies, cinemas }) => {
       field: "endTime",
       headerName: "Fecha y Hora de Finalizacion",
       type: "dateTime",
-      editable: true,
+      editable: false,
       width: 220,
     },
 

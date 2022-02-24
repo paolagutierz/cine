@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Movie = require("../models/movie");
+const MovieShow = require("../models/movieShow");
 const verifyAdmin = require("../middleware/verifyTokenAdmin");
 const multer = require("multer");
 const fileUpload = multer();
@@ -111,7 +112,20 @@ router.delete("/:id", verifyAdmin, async (req, res) => {
   let movie;
   try {
     movie = await Movie.findById(req.params.id);
+
     await movie.remove();
+
+    const movieShows = await MovieShow.find({ movie: req.params.id }).exec();
+    console.log(movieShows);
+    await Promise.all(
+      movieShows.map(async (movieShow) => {
+        try {
+          await movieShow.remove();
+        } catch (err) {
+          console.log(err);
+        }
+      })
+    );
     return res.status(204).send();
   } catch (err) {
     return res.status(500).json(err);
