@@ -34,7 +34,7 @@ const Navbar = ({ logout, user }) => {
               noWrap
               gutterBottom
               onClick={(e) => handleRedirect(e, "/")}>
-              Cidenet Pictures
+              Cinema
             </Button>
           </div>
 
@@ -48,14 +48,14 @@ const Navbar = ({ logout, user }) => {
               <Button
                 color="inherit"
                 onClick={(e) => handleRedirect(e, "/administrador")}>
-                Administrar Cartelera
+                Administrar Cinema
               </Button>
             )}
             {user && (
               <Button
                 color="inherit"
                 onClick={(e) => handleRedirect(e, "/reservas")}>
-                Lista de Reservas
+                Ver Reservas
               </Button>
             )}
             <IconButton

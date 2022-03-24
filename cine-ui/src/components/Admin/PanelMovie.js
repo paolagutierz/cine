@@ -46,7 +46,7 @@ function EditToolbar(props) {
   return (
     <GridToolbarContainer>
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-        Agregar Pelicula
+        Agregar Pelicul
       </Button>
     </GridToolbarContainer>
   );
