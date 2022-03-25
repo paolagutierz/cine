@@ -331,7 +331,7 @@ const Signup = ({
               </Grid>
               {apiError && (
                 <Alert severity="error">
-                  Hubo un error al registrarse, intenta nuevamente.
+                  Tu registro no fue exitoso, intenta nuevamente
                 </Alert>
               )}
             </Box>
