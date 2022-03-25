@@ -149,7 +149,7 @@ const Signup = ({
     const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{5,}$/;
     if (!pattern.test(password)) {
       setError({
-        text: "Longitud mínima 5, y debe contener mayúsculas, minúsculas y números.",
+        text: "Longitud , y debe contener mayúsculas, minúsculas y números.",
         input: "password",
       });
       return false;
@@ -157,7 +157,7 @@ const Signup = ({
 
     if (password !== password2) {
       setError({
-        text: "Las contraseñas no coinciden",
+        text: "no coinciden",
         input: "password",
       });
       return false;
@@ -170,7 +170,7 @@ const Signup = ({
     if (pattern.test(email)) {
       return true;
     } else {
-      setError({ text: "Ingresa un email valido", input: "email" });
+      setError({ text: "email no valido", input: "email" });
       return false;
     }
   };
@@ -181,7 +181,7 @@ const Signup = ({
       return true;
     } else {
       setError({
-        text: "Ingresa un numero de documento valido",
+        text: " numero de documento no  valido",
         input: "documentNumb",
       });
       return false;
