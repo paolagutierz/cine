@@ -226,10 +226,10 @@ const MovieDetails = ({ user }) => {
                               alignItems: "center",
                             }}>
                             <Typography variant="h5" color="error.contrastText">
-                              Numero de Sillas:{seatsNumb}
+                              Cantidad de Sillas:{seatsNumb}
                             </Typography>
                             <Typography variant="h5" color="error.contrastText">
-                              Total:${seatsNumb * 20000}
+                              Precio:${seatsNumb * 20000}
                             </Typography>
                             {user ? (
                               <DialogLS
@@ -244,7 +244,7 @@ const MovieDetails = ({ user }) => {
                                   color="primary"
                                   variant="contained"
                                   onClick={(e) => handleReservation("success")}>
-                                  Reservar
+                                  Reserva
                                 </Button>
                               </>
                             )}
