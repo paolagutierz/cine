@@ -13,7 +13,6 @@ const ticketRoute = require("./routes/ticket");
 const emailRoute = require("./routes/email");
 const cors = require("cors");
 
-
 dotenv.config();
 app.use(cors());
 app.use(express.json());
