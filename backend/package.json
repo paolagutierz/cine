@@ -10,10 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@elastic/elasticsearch": "^8.1.0",
     "cloudinary": "^1.28.1",
     "cors": "^2.8.5",
     "crypto-js": "^4.0.0",
     "dotenv": "^10.0.0",
+    "elasticsearch": "^16.7.3",
     "express": "^4.17.1",
     "install": "^0.13.0",
     "jsonwebtoken": "^8.5.1",

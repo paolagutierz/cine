@@ -8,14 +8,32 @@ const fileUpload = multer();
 const cloudinary = require("cloudinary").v2;
 const streamifier = require("streamifier");
 const dotenv = require("dotenv");
-
+const elasticsearch= require("@elastic/elasticsearch");
+const client= new elasticsearch.Client({
+  host:'localhost:9200'
+});
 dotenv.config();
 
 // All movies
 router.get("/", async (req, res) => {
+client.index({
+  index:"movie",
+  type:"mytype",
+  id:req.body.id,
+  body:req.body,
+},function(err, res, status){
+  if(err){
+    console.log(err);
+  }else{
+    return res.status(200)
+.send({
+  message: `GET movie succeeded`
+   }) 
+  }
+})
   let query = Movie.find();
   if (req.query.name != null && req.query.name != "") {
-    query = query.regex("name", new RegExp(req.query.name, "i"));
+      query = query.regex("name", new RegExp(req.query.name, "i"));
   }
   try {
     const movies = await query.exec();
